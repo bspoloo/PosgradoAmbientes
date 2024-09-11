@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Ambiente;
 use App\Http\Controllers\Controller;
 use App\Models\Ambiente\Ambiente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class AmbienteController extends Controller
 {
@@ -26,31 +28,34 @@ class AmbienteController extends Controller
             'estado' => 'required | string',
         ];
     }
-    public function index(Request $request)
-    {
-        if ($request->ajax()) {
-
-            $data = Ambiente::all();
-
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<button type="button" class="btn btn-primary btn-sm editRecord" data-id="' . $row->id_universidad . '" data-bs-toggle="modal" data-bs-target="#modal-center"><i class="fa fa-edit"></i>Edit</button>';
-                    $btn = $btn . ' <a href="javascript:void(0)" class="btn btn-danger btn-sm deleteRecord" data-id="' . $row->id_universidad . '"><i class="fa fa-trash"></i>Delete</a';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        return view('CRUD.Universidades.uni_list');
-    }
-    
     public function edit($id_ambiente)
     {
-        $where = array('id_edificio' => $id_ambiente);
+        $where = array('id_ambiente' => $id_ambiente);
         $table  = $this->model::where($where)->first();
         $table['id'] = $table->id_ambiente;
         return response()->json($table);
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), $this->data);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $this->model::updateOrCreate(
+            [
+                'id_universidad' => $request->table_id
+            ],
+            [
+                'nombre' => $request->nombre,
+                'nombre_abreviado' => $request->nombre_abreviado,
+                'inicial' => $request->inicial,
+                'estado' => $request->estado
+            ]
+        );
+
+        return response()->json(['success' => 'Registro guardado exitosamente.' . $request]);
     }
 }

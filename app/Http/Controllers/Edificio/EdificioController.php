@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Edificio\Edificio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class EdificioController extends Controller
 {
@@ -16,7 +17,7 @@ class EdificioController extends Controller
     {
         $this->ambienteManager = new AmbienteManager();
     }
-
+    
     public function getEdificios()
     {
         $edificios = Edificio::all();
@@ -38,7 +39,7 @@ class EdificioController extends Controller
 
         foreach ($pisos as $piso) {
             if ($nombre != $piso->piso) {
-                
+
                 $pisos_ambientes[] = new Piso(
                     $piso->id_piso,
                     $piso->piso,

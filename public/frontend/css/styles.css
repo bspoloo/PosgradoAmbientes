@@ -1,0 +1,326 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #4788b3;
+    padding: 10px 20px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5pc;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+h1 {
+    color: #0056b3;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    
+}
+th{
+    background-color: #2a3a4b;
+    color: white;
+}
+
+a {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #c9302c;
+}
+
+/* form */
+.form-data {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    margin-left: 30%;
+    margin-right: 30%;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+    font-size: 16px;
+    padding-bottom: 5px;
+    font-family: 'Arial', sans-serif;
+}
+
+label.required::after {
+    content: "*";
+    color: red;
+    margin-left: 5px;
+}
+
+label.inline {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.isAdmin{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    margin-left: 30%;
+    margin-right: 30%;
+
+    background-color: rgb(49, 210, 49);
+    border: 3px solid #000000;
+    border-radius: 50px;
+}
+.isUser{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgb(20, 122, 112);
+    border: 3px solid #000000;
+    border-radius: 50px;
+
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    appearance: none; /* Eliminar el estilo por defecto del navegador */
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+    border-color: #007bff;
+}
+
+select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Estilo básico para las opciones */
+option {
+    background-color: #fff;
+    border-color: #007bff;
+    color: #333;
+    padding: 10px; /* No todos los navegadores soportan padding en option */
+    font-size: 16px;
+}
+.is-invalid {
+    border-color: #dc3545;
+}
+/* //changes dxd */
+.invalid-feedback {
+    display: block;
+    color: #dc3545;
+}
+.container div {
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+.container div:hover {
+    transform: translateY(-10px);
+}
+
+/* Image styling */
+.rounded-img {
+    border-radius: 10%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+}
+
+/* Building name styling */
+h2 {
+    color: #34495e;
+    font-size: 1.8em;
+    margin: 0;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* General styles for the building container */
+.edificio {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for each individual piso component */
+.piso {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.piso:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Styling for piso's name and number */
+.piso x-slot[name="nombre"] {
+    font-size: 1.5em;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.piso x-slot[name="numero_piso"] {
+    font-size: 1.2em;
+    color: #7f8c8d;
+}
+
+/* Optional: Responsive design adjustments */
+@media (max-width: 768px) {
+    .edificio {
+        padding: 15px;
+    }
+
+    .piso {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    .piso x-slot[name="nombre"] {
+        font-size: 1.2em;
+    }
+
+    .piso x-slot[name="numero_piso"] {
+        font-size: 1em;
+    }
+}
+.ambientes{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+.ambiente {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #d0ece6;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ambiente img {
+    border-radius: 8px;
+    max-width: 20%; 
+    height: auto;
+}
+
+.ambiente h2 {
+    color: #333;
+    font-size: 1.5em;
+    margin-top: 15px;
+}

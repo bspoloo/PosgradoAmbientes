@@ -31,6 +31,11 @@
             <div>
                 <h2>Nombre: {{ $edificio->nombre }}</h2>
             </div>
+            <div class="container">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-add-piso">
+                    Añadir Piso
+                </button>
+            </div>
         </div>
 
         <div class="edificio">
@@ -72,67 +77,204 @@
                         <form id="form" name="form" class="needs-validation" autocomplete="off" novalidate>
                             <input type="hidden" name="id_ambiente" id="id_ambiente">
                             @csrf
-        
+
+                            <div class="mb-3">
+                                <label for="id_piso_bloque" class="form-label">Piso Bloque<span
+                                        class="text-danger">*</span></label>
+                                <select class="form-select mb-4" name="id_piso_bloque" id="id_piso_bloque">
+                                    @foreach ($PisosBloques as $PisoBloque)
+                                        <option value="{{ $PisoBloque->id_piso_bloque }}">{{ $PisoBloque->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="id_tipo_ambiente" class="form-label">Tipo de Ambiente<span
+                                        class="text-danger">*</span></label>
+                                <select class="form-select mb-4" name="id_tipo_ambiente" id="id_tipo_ambiente">
+                                    @foreach ($TipoAmbientes as $TipoAmbiente)
+                                        <option value="{{ $TipoAmbiente->id_tipo_ambiente }}">{{ $TipoAmbiente->nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <!-- Nombre -->
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del ambiente" required>
+                                <input type="text" class="form-control @error('nombre') is-invalid @enderror"
+                                    name="nombre" id="nombre" placeholder="Nombre del ambiente" required>
                                 <div class="invalid-feedback"></div>
                             </div>
-        
+
                             <!-- Código -->
                             <div class="mb-3">
                                 <label for="codigo" class="form-label">Código <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="codigo" id="codigo" placeholder="Código del ambiente" required>
+                                <input type="text" class="form-control @error('codigo') is-invalid @enderror"
+                                    name="codigo" id="codigo" placeholder="Código del ambiente" required>
                                 <div class="invalid-feedback"></div>
                             </div>
-        
+
                             <!-- Capacidad -->
                             <div class="mb-3">
-                                <label for="capacidad" class="form-label">Capacidad <span class="text-danger">*</span></label>
-                                <input type="number" class="form-control" name="capacidad" id="capacidad" placeholder="Capacidad del ambiente" required>
+                                <label for="capacidad" class="form-label">Capacidad <span
+                                        class="text-danger">*</span></label>
+                                <input type="number" class="form-control @error('capacidad') is-invalid @enderror"
+                                    name="capacidad" id="capacidad" placeholder="Capacidad del ambiente" required>
                                 <div class="invalid-feedback"></div>
                             </div>
-        
+
                             <!-- Metro Cuadrado -->
                             <div class="mb-3">
-                                <label for="metro_cuadrado" class="form-label">Metro Cuadrado <span class="text-danger">*</span></label>
-                                <input type="number" step="0.01" class="form-control" name="metro_cuadrado" id="metro_cuadrado" placeholder="Metros cuadrados del ambiente" required>
+                                <label for="metro_cuadrado" class="form-label">Metro Cuadrado <span
+                                        class="text-danger">*</span></label>
+                                <input type="number" step="0.01"
+                                    class="form-control @error('metro_cuadrado') is-invalid @enderror"
+                                    name="metro_cuadrado" id="metro_cuadrado" placeholder="Metros cuadrados del ambiente"
+                                    required>
                                 <div class="invalid-feedback"></div>
                             </div>
-        
+
                             <!-- Imagen Exterior -->
                             <div class="mb-3">
-                                <label for="imagen_exterior" class="form-label">Imagen Exterior <span class="text-danger">*</span></label>
-                                <input type="file" class="form-control" name="imagen_exterior" id="imagen_exterior" required>
+
+                                <img id="preview-imagen_exterior" src="" alt="Imagen actual"
+                                    style="width: 150px; margin-top: 10px;">
+
+                                <label for="imagen_exterior" class="form-label">Imagen Exterior <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control @error('imagen_exterior') is-invalid @enderror"
+                                    name="imagen_exterior" id="imagen_exterior" required>
                                 <div class="invalid-feedback"></div>
                             </div>
-        
+
                             <!-- Imagen Interior -->
                             <div class="mb-3">
-                                <label for="imagen_interior" class="form-label">Imagen Interior <span class="text-danger">*</span></label>
-                                <input type="file" class="form-control" name="imagen_interior" id="imagen_interior" required>
+                                <img id="preview-imagen_interior" src="" alt="Imagen actual"
+                                    style="width: 150px; margin-top: 10px;">
+                                <label for="imagen_interior" class="form-label">Imagen Interior <span
+                                        class="text-danger">*</span></label>
+                                <input type="file" class="form-control @error('imagen_interior') is-invalid @enderror"
+                                    name="imagen_interior" id="imagen_interior" required>
                                 <div class="invalid-feedback"></div>
                             </div>
-        
+
                             <!-- Estado -->
                             <div class="mb-3">
-                                <label for="estado" class="form-label">Estado <span class="text-danger">*</span></label>
+                                <label for="estado" class="form-label">Estado <span
+                                        class="text-danger">*</span></label>
                                 <select class="form-control" name="estado" id="estado">
                                     <option value="S">Activado</option>
                                     <option value="N">Desactivado</option>
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
-        
+
                             <div class="mt-4">
-                                <button class="btn btn-success w-100" type="submit">Guardar</button>
+                                <button class="btn btn-success w-100 submit" type="submit">Guardar</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="modal-add-piso" tabindex="-1" aria-labelledby="addPisoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addPisoLabel">Agregar Nuevo Piso</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <form id="form2" name="form2" class="needs-validation" autocomplete="off"
+                            class="needs-validation" novalidate>
+                            <input type="hidden" name="id_piso" id="id_piso">
+                            @csrf
+
+                            <select class="form-select mb-4" name="id_bloque" id="id_bloque">
+                                @foreach ($bloques as $bloque)
+                                    <option value="{{ $bloque->id_bloque }}">{{ $bloque->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <div class="">
+                                <select class="form-select mb-4" name="numero_piso" id="numero_piso">
+
+                                    @foreach ($pisos_ambientes as $piso)
+                                        <option value="{{ $piso->numero }}">{{ $piso->numero }}.- {{ $piso->nombre }}
+                                        </option>
+                                    @endforeach
+
+                                </select>
+                                @php
+                                    $cantidad = 0;
+                                    for ($i = $pisos_ambientes[0]->numero; $i < $pisos[count($pisos) - 1]->numero; $i++) { 
+                                        $cantidad++;
+                                    }
+                                @endphp
+
+                                    <div class="mb-3">
+                                        <label for="cantidad" class="cantidad">Cantidad <span
+                                                class="text-danger">*</span></label>
+                                        <input type="number"
+                                            class="form-control @error('cantidad') is-invalid @enderror"
+                                            name="cantidad" id="cantidad" placeholder="Intriduzca la cantidad"
+                                            min="1"
+                                            max="{{$cantidad}}"
+                                            required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="nombre" class="form-label">Nombre del Piso Bloque <span
+                                                class="text-danger">*</span></label>
+                                        <input type="text"
+                                            class="form-control @error('nombre') is-invalid @enderror"
+                                            name="nombre" id="nombre" placeholder="Intriduzca el nombre Piso Bloque"
+                                            required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="cantidad_ambientes" class="form-label">Cantidad de ambientes<span
+                                                class="text-danger">*</span></label>
+                                        <input type="number"
+                                            min="0"
+                                            class="form-control @error('nombre') is-invalid @enderror"
+                                            name="cantidad_ambientes" id="cantidad_ambientes" placeholder="Intriduzca la cantidad de ambientes"
+                                            required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="imagen" class="form-label">Imagen<span class="text-danger">*</span></label>
+                                        <input type="file" class="form-control @error('imagen') is-invalid @enderror"
+                                            name="imagen" value="" id="imagen" placeholder="Introduzca la imagen"
+                                            required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="estado" class="form-label">Estado <span class="text-danger">*</span></label>
+                                        <select class="form-control" name="estado" id="estado">
+                                            <option value="S">Activado</option>
+                                            <option value="N">Desactivado</option>
+                                        </select>
+                                    </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <button class="btn btn-success w-100 submit" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="{{ URL::asset('js/edit.js') }}"></script>
+        <script src="{{ URL::asset('js/edit2.js') }}"></script>
     </body>
 @endsection

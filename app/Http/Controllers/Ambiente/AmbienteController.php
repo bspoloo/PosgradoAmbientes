@@ -17,14 +17,14 @@ class AmbienteController extends Controller
     {
         $this->model = new Ambiente();
         $this->data = [
-            'id_piso_bloque' => 'required | int',
-            'id_tipo_ambiente' => 'required | int',
+            'id_piso_bloque' => 'required | string',
+            'id_tipo_ambiente' => 'required | string',
             'nombre' => 'required | string',
             'codigo' => 'required | string',
-            'capacidad' => 'required | int',
-            'metro_cuadrado' => 'required | int',
-            'imagen_exterior' => 'required | string',
-            'imagen_interior' => 'required | string',
+            'capacidad' => 'required | string',
+            'metro_cuadrado' => 'required | string',
+            'imagen_exterior' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'imagen_interior' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'estado' => 'required | string',
         ];
     }
@@ -39,22 +39,42 @@ class AmbienteController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), $this->data);
-    
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $this->model::updateOrCreate(
+        $ieNmae = null;
+        $iiName = null;
+
+        if ($request->hasFile('imagen_exterior')) {
+            $ieNmae = time() . 'imagen_exterior.' . $request->imagen_exterior->extension();
+            $request->imagen_exterior->move(public_path('images'), $ieNmae);
+        }
+
+        if ($request->hasFile('imagen_interior')) {
+            $iiName = time() . 'imagen_interior.' . $request->imagen_interior->extension();
+            $request->imagen_interior->move(public_path('images'), $iiName);
+        }
+
+        $ambiente = $this->model::updateOrCreate(
             [
-                'id_universidad' => $request->table_id
+                'id_ambiente' => $request->id_ambiente
             ],
             [
+                'id_piso_bloque' => $request->id_piso_bloque,
+                'id_tipo_ambiente' => $request->id_tipo_ambiente,
                 'nombre' => $request->nombre,
-                'nombre_abreviado' => $request->nombre_abreviado,
-                'inicial' => $request->inicial,
-                'estado' => $request->estado
+                'codigo' => $request->codigo,
+                'capacidad' => $request->capacidad,
+                'metro_cuadrado' => $request->metro_cuadrado,
+                'imagen_exterior' => $ieNmae,
+                'imagen_interior' => $iiName,
+                'estado' => $request->estado,
             ]
         );
+
+        $ambiente->save();
 
         return response()->json(['success' => 'Registro guardado exitosamente.' . $request]);
     }

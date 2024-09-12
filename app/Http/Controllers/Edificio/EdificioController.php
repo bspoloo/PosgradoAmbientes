@@ -6,6 +6,9 @@ use App\Classes\Ambiente\AmbienteManager;
 use App\Classes\Piso\Piso;
 use App\Http\Controllers\Controller;
 use App\Models\Edificio\Edificio;
+use App\Models\Piso\Piso as PisoPiso;
+use App\Models\PisoBloque\PisoBloque;
+use App\Models\TipoAmbiente\TipoAmbiente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -42,8 +45,8 @@ class EdificioController extends Controller
 
                 $pisos_ambientes[] = new Piso(
                     $piso->id_piso,
-                    $piso->piso,
                     $piso->numero_piso,
+                    $piso->piso,
                     $piso->piso_estado,
                     $this->ambienteManager->getAmbientes($edificio, $piso->numero_piso)
                 );
@@ -52,7 +55,13 @@ class EdificioController extends Controller
             }
         }
 
-
-        return view('Edificios.edificio', ['edificio' => $edificio, 'pisos_ambientes' => $pisos_ambientes]);
+        return view('Edificios.edificio', [
+            'edificio' => $edificio, 
+            'pisos_ambientes' => $pisos_ambientes,
+            'PisosBloques' => PisoBloque::all(),
+            'TipoAmbientes' => TipoAmbiente::all(),
+            'bloques' => DB::table('bloques')->where('id_edificio', $edificio->id_edificio)->get(),
+            'pisos' => PisoPiso::orderBy('numero', 'asc')->get()
+        ]);
     }
 }

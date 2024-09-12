@@ -1,7 +1,7 @@
-URLindex = '/ambientes';
-titulo = 'Ambientes'
+URLindex = '/pisos';
+titulo = 'Piso'
 
-$('#form').on('submit', function (e) {
+$('#form2').on('submit', function (e) {
     e.preventDefault();
 
     var formData = new FormData(this);

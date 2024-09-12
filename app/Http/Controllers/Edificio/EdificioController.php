@@ -24,6 +24,7 @@ class EdificioController extends Controller
     public function getEdificios()
     {
         $edificios = Edificio::all();
+        
         return view('Edificios.edificios', ['edificios' => $edificios]);
     }
     public function getEdificioById($id_edificio)

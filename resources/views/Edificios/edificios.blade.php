@@ -26,6 +26,8 @@
             var locations = @json($edificios);
             console.log(locations);
 
+            
+
             locations.forEach(function(location) {
 
                 var customIcon = L.icon({

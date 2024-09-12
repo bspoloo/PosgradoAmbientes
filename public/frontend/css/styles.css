@@ -324,3 +324,7 @@ h2 {
     font-size: 1.5em;
     margin-top: 15px;
 }
+.ambiente-container{
+    display: flex;
+    flex-direction: column;
+}

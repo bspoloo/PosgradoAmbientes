@@ -34,6 +34,7 @@ class AmbienteController extends Controller
         $table  = $this->model::where($where)->first();
         $table['id'] = $table->id_ambiente;
         return response()->json($table);
+
     }
 
     public function store(Request $request)
@@ -77,5 +78,11 @@ class AmbienteController extends Controller
         $ambiente->save();
 
         return response()->json(['success' => 'Registro guardado exitosamente.' . $request]);
+    }
+
+    public function destroy($id_ambiente)
+    {
+        $this->model::find($id_ambiente)->delete();
+        return response()->json(['success' => 'Registro borrado exitosamente.']);
     }
 }

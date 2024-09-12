@@ -1,5 +1,4 @@
-URLindex = '/pisos';
-titulo = 'Piso'
+URLindex2 = '/pisos';
 
 $('#form2').on('submit', function (e) {
     e.preventDefault();
@@ -8,7 +7,7 @@ $('#form2').on('submit', function (e) {
 
     $.ajax({
         data: formData,
-        url: URLindex,
+        url: URLindex2,
         type: "POST",
         dataType: 'json',
         contentType: false,
@@ -38,33 +37,5 @@ $('#form2').on('submit', function (e) {
                 });
             }
         }
-    });
-});
-
-
-$('body').on('click', '.editRecord', function () {
-
-    var table_id = $(this).data('id');
-    $.get(URLindex + '/' + table_id + '/edit', function (data) {
-        $('#modelHeading').html("Editar " + titulo);
-        $('#ajaxModel').modal('show');
-        $('#table_id').val(data.id);
-
-        $.each(data, function (index, itemData) {
-
-            var element = $('[name="' + index + '"]');
-
-            if (element.is('select')) {
-                element.val(itemData).change();
-            } else if (element.is('input[type="file"]')) {
-                var id_preview = '#preview-' + index;
-
-                $(id_preview).attr('src', '/images/' + itemData);
-
-            } else {
-                element.val(itemData);
-            }
-
-        });
     });
 });

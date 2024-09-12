@@ -212,62 +212,72 @@
                                 </select>
                                 @php
                                     $cantidad = 0;
-                                    for ($i = $pisos_ambientes[0]->numero; $i < $pisos[count($pisos) - 1]->numero; $i++) { 
+                                    for (
+                                        $i = $pisos_ambientes[0]->numero;
+                                        $i < $pisos[count($pisos) - 1]->numero;
+                                        $i++
+                                    ) {
                                         $cantidad++;
                                     }
                                 @endphp
 
-                                    <div class="mb-3">
-                                        <label for="cantidad" class="cantidad">Cantidad <span
-                                                class="text-danger">*</span></label>
-                                        <input type="number"
-                                            class="form-control @error('cantidad') is-invalid @enderror"
-                                            name="cantidad" id="cantidad" placeholder="Intriduzca la cantidad"
-                                            min="1"
-                                            max="{{$cantidad}}"
-                                            required>
-                                        <div class="invalid-feedback"></div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="nombre" class="form-label">Nombre del Piso Bloque <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text"
-                                            class="form-control @error('nombre') is-invalid @enderror"
-                                            name="nombre" id="nombre" placeholder="Intriduzca el nombre Piso Bloque"
-                                            required>
-                                        <div class="invalid-feedback"></div>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="cantidad" class="cantidad">Cantidad <span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control @error('cantidad') is-invalid @enderror"
+                                        name="cantidad" id="cantidad" min="0"
+                                        placeholder="Usted solo puede insertar cantidad de {{ $cantidad }} pisos"
+                                        max="{{ $cantidad }}" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre del Piso Bloque <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('nombre') is-invalid @enderror"
+                                        name="nombre" id="nombre" placeholder="Intriduzca el nombre Piso Bloque"
+                                        required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
 
-                                    <div class="mb-3">
-                                        <label for="cantidad_ambientes" class="form-label">Cantidad de ambientes<span
-                                                class="text-danger">*</span></label>
-                                        <input type="number"
-                                            min="0"
-                                            class="form-control @error('nombre') is-invalid @enderror"
-                                            name="cantidad_ambientes" id="cantidad_ambientes" placeholder="Intriduzca la cantidad de ambientes"
-                                            required>
-                                        <div class="invalid-feedback"></div>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="cantidad_ambientes" class="form-label">Cantidad de ambientes<span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" min="0"
+                                        class="form-control @error('nombre') is-invalid @enderror"
+                                        name="cantidad_ambientes" id="cantidad_ambientes"
+                                        placeholder="Intriduzca la cantidad de ambientes" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
 
-                                    <div class="mb-3">
-                                        <label for="imagen" class="form-label">Imagen<span class="text-danger">*</span></label>
-                                        <input type="file" class="form-control @error('imagen') is-invalid @enderror"
-                                            name="imagen" value="" id="imagen" placeholder="Introduzca la imagen"
-                                            required>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="imagen" class="form-label">Imagen<span
+                                            class="text-danger">*</span></label>
+                                    <input type="file" class="form-control @error('imagen') is-invalid @enderror"
+                                        name="imagen" value="" id="imagen" placeholder="Introduzca la imagen"
+                                        required>
+                                </div>
 
-                                    <div class="mb-3">
-                                        <label for="estado" class="form-label">Estado <span class="text-danger">*</span></label>
-                                        <select class="form-control" name="estado" id="estado">
-                                            <option value="S">Activado</option>
-                                            <option value="N">Desactivado</option>
-                                        </select>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="estado" class="form-label">Estado <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-control" name="estado" id="estado">
+                                        <option value="S">Activado</option>
+                                        <option value="N">Desactivado</option>
+                                    </select>
+                                </div>
                             </div>
+                            @if ($cantidad == 0)
+                                <div class="mt-4">
+                                    <button type="button" class=" btn btn-success w-100" data-bs-dismiss="modal"
+                                        aria-label="Close">Usted ya no puede crear mas
+                                        pisos</button>
+                                </div>
+                            @else
+                                <div class="mt-4">
+                                    <button class="btn btn-success w-100 submit" type="submit">Guardar</button>
+                                </div>
+                            @endif
 
-                            <div class="mt-4">
-                                <button class="btn btn-success w-100 submit" type="submit">Guardar</button>
-                            </div>
                         </form>
                     </div>
                 </div>

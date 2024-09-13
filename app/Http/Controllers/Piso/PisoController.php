@@ -12,18 +12,20 @@ use Illuminate\Support\Facades\Validator;
 class PisoController extends Controller
 {
     public $data;
+
     public function __construct()
     {
         $this->data = [
-            'id_bloque' => 'required | string',
-            'numero_piso' => 'required | string',
-            'cantidad' => 'required | string',
-            'nombre' => 'required | string',
-            'cantidad_ambientes' => 'required | string',
+            'id_bloque' => 'required|string',
+            'id_piso' => 'required|integer',
+            'cantidad' => 'required|integer',
+            'nombre_piso_bloque' => 'required|string',
+            'cantidad_ambientes' => 'required|integer',
             'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'estado' => 'required | string',
+            'estado' => 'required|string',
         ];
     }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), $this->data);
@@ -31,30 +33,46 @@ class PisoController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        DB::beginTransaction();
 
+        try {
+            $this->reorganizarPisos($request->id_bloque, $request->id_piso, $request->cantidad);
+            $this->addPisos($request);
+
+            DB::commit();
+            return response()->json(['success' => 'Registro guardado exitosamente.']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => 'Error al guardar el registro: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function addPisos($request)
+    {
         $iName = null;
 
         if ($request->hasFile('imagen')) {
-            $iName = time() . 'imagen.' . $request->imagen->extension();
+            $iName = time() . '_imagen.' . $request->imagen->extension();
             $request->imagen->move(public_path('images'), $iName);
         }
-        $piso = Piso::where('numero', $request->numero_piso);
-        // Actualizar los bloques existentes
-        PisoBloque::where('id_bloque', $request->id_bloque)
-            ->where('id_piso', '>=', $request->numero_piso + 1)
-            ->update(['id_piso' => DB::raw('id_piso + ' . $request->cantidad)]);
 
-        // Insertar los nuevos pisos
-        for ($i = $request->numero_piso; $i < $request->cantidad; $i++) {
+        for ($i = 0; $i < $request->cantidad; $i++) {
             PisoBloque::create([
                 'id_bloque' => $request->id_bloque,
-                'id_piso' =>  +$piso->numero + 1,
-                'nombre' => $request->nombre . ' ' . ($request->numero_piso + $i),
+                'id_piso' => $request->id_piso + $i, 
+                'nombre' => $request->nombre_piso_bloque,
                 'cantidad_ambientes' => $request->cantidad_ambientes,
                 'imagen' => $iName,
                 'estado' => $request->estado,
             ]);
         }
-        return response()->json(['success' => 'Registro guardado exitosamente.' . $request]);
+    }
+
+    public function reorganizarPisos($id_bloque, $id_piso_inicio, $cantidad)
+    {
+        PisoBloque::where('id_bloque', $id_bloque)
+            ->where('id_piso', '>=', $id_piso_inicio)
+            ->orderBy('id_piso', 'desc')
+            ->increment('id_piso', $cantidad);
     }
 }

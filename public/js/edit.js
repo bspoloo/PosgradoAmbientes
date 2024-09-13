@@ -52,15 +52,29 @@ $(document).ready(function () {
         });
     });
 
-    $('#createNewRecord').on("click", function () {
+    $('body').on("click", ".createNewRecord", function () {
+        var button_value = $(this).data('value');
+        var $select = $('#id_piso_bloque');
+        $select.empty();
+        
         $('#table_id').val('');
         $('#form')[0].reset();
         $('#modelHeading').html("Crear nuevo " + titulo);
         $('#ajaxModel').modal('show');
+
+        $.get(`/pisos_bloques/${button_value}`, function (data) {
+            console.log(data);
+            $.each(data, function (index, item) {
+                $select.append('<option value="' + item.id_piso_bloque + '">' + item.piso_bloque + '</option>');
+            });
+        });
     });
 
     $('body').on('click', '.editRecord', function () {
         var table_id = $(this).data('id');
+        var button_value = $(this).data('value');
+        var $select = $('#id_piso_bloque');
+        $select.empty();
 
         $.get(URLindex + '/' + table_id + '/edit', function (data) {
             $('#modelHeading').html("Editar " + titulo);
@@ -78,6 +92,13 @@ $(document).ready(function () {
                 } else {
                     element.val(itemData);
                 }
+            });
+        });
+
+        $.get(`/pisos_bloques/${button_value}`, function (data) {
+            console.log(data);
+            $.each(data, function (index, item) {
+                $select.append('<option value="' + item.id_piso_bloque + '">' + item.piso_bloque + '</option>');
             });
         });
     });

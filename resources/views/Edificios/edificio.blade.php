@@ -46,6 +46,14 @@
                     <x-slot name="numero_piso">
                         {{ $piso->numero }}
                     </x-slot>
+
+                    <x-slot name="id_edificio">
+                        {{ $edificio->id_edificio }}
+                    </x-slot>
+                    <x-slot name="id_piso">
+                        {{ $piso->id_piso }}
+                    </x-slot>
+
                 </x-piso>
                 <div class="ambientes piso">
                     @foreach ($piso->ambientes as $ambiente)
@@ -61,6 +69,12 @@
                             </x-slot>
                             <x-slot name="piso_bloque">
                                 {{ $ambiente->piso_bloque }}
+                            </x-slot>
+                            <x-slot name="id_edificio">
+                                {{ $edificio->id_edificio }}
+                            </x-slot>
+                            <x-slot name="id_piso">
+                                {{ $piso->id_piso }}
                             </x-slot>
                         </x-ambiente>
                     @endforeach
@@ -81,12 +95,9 @@
                             @csrf
 
                             <div class="mb-3">
-                                <label for="id_piso_bloque" class="form-label">Piso Bloque<span
-                                        class="text-danger">*</span></label>
+                                <label for="id_piso_bloque" class="form-label">Piso Bloque<span class="text-danger">*</span></label>
                                 <select class="form-select mb-4" name="id_piso_bloque" id="id_piso_bloque">
-                                    @foreach ($PisosBloques as $PisoBloque)
-                                        <option value="{{ $PisoBloque->id_piso_bloque }}">{{ $PisoBloque->nombre }}</option>
-                                    @endforeach
+                                    <!-- Las opciones se llenarán dinámicamente con AJAX -->
                                 </select>
                             </div>
 
@@ -204,10 +215,10 @@
                             </select>
 
                             <div class="">
-                                <select class="form-select mb-4" name="numero_piso" id="numero_piso">
+                                <select class="form-select mb-4" name="id_piso" id="id_piso">
 
                                     @foreach ($pisos_ambientes as $piso)
-                                        <option value="{{ $piso->numero }}">{{ $piso->numero }}.- {{ $piso->nombre }}
+                                        <option value="{{ $piso->id_piso }}">{{ $piso->numero }}.- {{ $piso->nombre }}
                                         </option>
                                     @endforeach
 
@@ -233,10 +244,10 @@
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="nombre" class="form-label">Nombre del Piso Bloque <span
+                                    <label for="nombre_piso_bloque" class="form-label">Nombre del Piso Bloque <span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('nombre') is-invalid @enderror"
-                                        name="nombre" id="nombre" placeholder="Intriduzca el nombre Piso Bloque"
+                                    <input type="text" class="form-control @error('nombre_piso_bloque') is-invalid @enderror"
+                                        name="nombre_piso_bloque" id="nombre_piso_bloque" placeholder="Intriduzca el nombre Piso Bloque"
                                         required>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -245,7 +256,7 @@
                                     <label for="cantidad_ambientes" class="form-label">Cantidad de ambientes<span
                                             class="text-danger">*</span></label>
                                     <input type="number" min="0"
-                                        class="form-control @error('nombre') is-invalid @enderror"
+                                        class="form-control @error('cantidad_ambientes') is-invalid @enderror"
                                         name="cantidad_ambientes" id="cantidad_ambientes"
                                         placeholder="Intriduzca la cantidad de ambientes" required>
                                     <div class="invalid-feedback"></div>
@@ -290,3 +301,4 @@
         <script src="{{ URL::asset('js/edit2.js') }}"></script>
     </body>
 @endsection
+

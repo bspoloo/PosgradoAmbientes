@@ -2494,20 +2494,19 @@ INSERT INTO pisos (id_piso, numero, nombre, estado) VALUES
   (12, 9, 'NOVENO PISO', 'S'),
   (13, 10, 'DECIMO PISO', 'S');
 
-INSERT INTO pisos_bloques (id_piso_bloque, id_bloque, id_piso, nombre, cantidad_ambientes, imagen, estado) VALUES
-  (1, 1, 3, 'HOSP1', 2, NULL, 'S'),
-  (2, 1, 4, 'HOSP2', 3, NULL, 'S'),
-  (3, 1, 5, 'HOSP3', 3, NULL, 'S'),
-  (4, 3, 6, 'PISO4', 6, NULL, 'S'),
-  (5, 3, 7, 'PISO5', 6, NULL, 'S'),
-  (6, 2, 3, 'SALUD1', 10, NULL, 'S'),
-  (7, 2, 4, 'SALUD2', 16, NULL, 'S'),
-  (8, 2, 5, 'SALUD3', 7, NULL, 'S'),
-  (9, 3, 3, 'PISO0', 6, NULL, 'S'),
-  (10, 3, 4, 'PISO1', 8, NULL, 'S'),
-  (11, 3, 5, 'PISO2', 8, NULL, 'S'),
-  (12, 3, 6, 'PISO3', 8, NULL, 'S');
-
+INSERT INTO pisos_bloques (id_bloque, id_piso, nombre, cantidad_ambientes, imagen, estado) VALUES
+	(1, 3, 'HOSP1', 2, NULL, 'S'),
+	(1, 4, 'HOSP2', 3, NULL, 'S'),
+	(1, 5, 'HOSP3', 3, NULL, 'S'),
+	(3, 6, 'PISO4', 6, NULL, 'S'),
+	(3, 7, 'PISO5', 6, NULL, 'S'),
+	(2, 3, 'SALUD1', 10, NULL, 'S'),
+	(2, 4, 'SALUD2', 16, NULL, 'S'),
+	(2, 5, 'SALUD3', 7, NULL, 'S'),
+	(3, 3, 'PISO0', 6, NULL, 'S'),
+	(3, 4, 'PISO1', 8, NULL, 'S'),
+	(3, 5, 'PISO2', 8, NULL, 'S'),
+	(3, 6, 'PISO3', 8, NULL, 'S');
 INSERT INTO tipos_ambientes (id_tipo_ambiente, nombre,icono , estado) VALUES
   (1, 'NORMAL', 'normal.png','S'),
   (2, 'HOSPITAL','lab_fisica.png', 'S'),
@@ -2600,9 +2599,7 @@ INSERT INTO ambientes (id_piso_bloque, id_tipo_ambiente, nombre, codigo, capacid
   (12, 1, 'P3-AMB07', NULL, NULL, NULL, NULL, 'S', NULL),
   (12, 1, 'P3-AMB08', NULL, NULL, NULL, NULL, 'S', NULL);
 
-
-
----------views-------------
+------ views ------
 create view edicio_campus as
 select e.* , c.nombre as campus, c.poligono
 from edificios e 
@@ -2645,7 +2642,21 @@ on  p.id_piso = pb.id_piso;
  inner join tipos_ambientes ta
  on ta.id_tipo_ambiente = a.id_tipo_ambiente;
 
+create view edifcio_piso_bloque as
+select e.id_edificio, e.nombre ,b.id_bloque ,b.nombre as bloque, 
+p.id_piso, p.nombre as piso ,pb.id_piso_bloque ,pb.nombre as piso_bloque
+from edificios e
+inner join bloques b
+on e.id_edificio = b.id_edificio
+inner join pisos_bloques pb
+on pb.id_bloque = b.id_bloque
+inner join pisos p
+on p.id_piso = pb.id_piso;
+
 select * from piso_view;
+
+select * from edifcio_piso_bloque ;
+drop view edifcio_piso_bloque;
 
 select * from edicio_campus;
 drop view edicio_campus;
@@ -2658,6 +2669,9 @@ drop view ambiente_piso_bloque;
 
 select * from tipos_ambientes;
 select * from edificios e ;
+
+select * from edifcio_piso_bloque;
+select * from edifcio_piso_bloque;
 
 select * from bloques b ;
 select * from pisos p ;

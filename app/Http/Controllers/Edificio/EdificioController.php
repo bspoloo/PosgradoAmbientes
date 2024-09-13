@@ -23,7 +23,10 @@ class EdificioController extends Controller
     
     public function getEdificios()
     {
-        $edificios = Edificio::all();
+        // $edificios = Edificio::all();
+        $edificios = DB::table('edicio_campus')
+            ->orderBy('id_edificio', 'asc')
+            ->get();
         
         return view('Edificios.edificios', ['edificios' => $edificios]);
     }

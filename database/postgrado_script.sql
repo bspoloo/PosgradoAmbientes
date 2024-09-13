@@ -181,6 +181,7 @@ CREATE TABLE pisos_bloques (
 CREATE TABLE tipos_ambientes (
     id_tipo_ambiente SERIAL NOT NULL,
     nombre VARCHAR(30),	-- ------ Ambiente, Laboratorio Computacion, 
+    icono VARCHAR(200),
 	estado VARCHAR(1) DEFAULT 'S',
 	CONSTRAINT pk_tipos_ambientes PRIMARY KEY(id_tipo_ambiente)
 );
@@ -192,10 +193,10 @@ CREATE TABLE ambientes (
     nombre VARCHAR(30),
     codigo VARCHAR(30),
     capacidad INT, -- --aqui indica la capacidad del ambiente y si el lab. de computacion indica la capacidad del lab.
-	  metro_cuadrado FLOAT, -- --metro cuadrado del ambiente
+	metro_cuadrado FLOAT, -- --metro cuadrado del ambiente
     imagen_exterior VARCHAR(255),
     imagen_interior VARCHAR(255),
-	  estado VARCHAR(1) DEFAULT 'S',
+	estado VARCHAR(1) DEFAULT 'S',
 	CONSTRAINT pk_ambientes PRIMARY KEY(id_ambiente),
 	CONSTRAINT fk_pisos_bloques_ambientes FOREIGN KEY(id_piso_bloque) REFERENCES pisos_bloques(id_piso_bloque),
 	CONSTRAINT fk_tipos_ambientes_ambientes FOREIGN KEY(id_tipo_ambiente) REFERENCES tipos_ambientes(id_tipo_ambiente)
@@ -2459,15 +2460,15 @@ INSERT INTO horas_clases (id_hora_clase, numero, hora_inicio, hora_fin, estado) 
   (18, 18, '20:45:00', '21:30:00', 'S');
 
 INSERT INTO campus (id_campu, nombre, direccion, poligono, latitud, longitud, imagen, estado) VALUES
-  (1, 'HOSPITAL', NULL, NULL, NULL, NULL, NULL, 'S'),
-  (2, 'CIUDADELA UNIVERSITARIA', NULL, NULL, NULL, NULL, NULL, 'S'),
-  (3, 'NOGALES MEDICINA', NULL, NULL, NULL, NULL, NULL, 'S');
+  (1, 'HOSPITAL', NULL, '-19.040516,-65.257506,-19.041316,-65.257506,-19.041316,-65.256406,-19.040516,-65.256406', NULL, NULL, NULL, 'S'),
+  (2, 'CIUDADELA UNIVERSITARIA', NULL, '-19.039714,-65.257185,-19.039414,-65.256885,-19.039714,-65.256585,-19.040014,-65.256585,-19.040314,-65.256885', NULL, NULL, NULL, 'S'),
+  (3, 'NOGALES MEDICINA', NULL, '-19.038000,-65.255000,-19.040500,-65.258500,-19.037000,-65.260000', NULL, NULL, NULL, 'S');
   
  -- -- Desde aqui
 
 INSERT INTO edificios (id_edificio, id_campu, nombre, direccion, latitud, longitud, imagen, estado) VALUES
-  (1, 1, 'EDIF.HOSPITAL', NULL, NULL, NULL, NULL, 'S'),
-  (2, 2, 'EDIF.UNIV.', NULL, NULL, NULL, NULL, 'S');
+  (1, 1, 'EDIF.HOSPITAL', NULL, '-19.039713523661863', '-65.25688455916337', 'facultad tecnologia.jpg', 'S'),
+  (2, 2, 'EDIF.UNIV.', NULL, '-19.04051619686859', '-65.25720587474858', 'hospital universitario.jpeg', 'S');
 
 INSERT INTO facultades_edificios (id_facultad_edificio, id_facultad, id_edificio, fecha_asignacion, estado) VALUES
   (1, 1, 1, '2019-04-20', 'S'),
@@ -2507,95 +2508,161 @@ INSERT INTO pisos_bloques (id_piso_bloque, id_bloque, id_piso, nombre, cantidad_
   (11, 3, 5, 'PISO2', 8, NULL, 'S'),
   (12, 3, 6, 'PISO3', 8, NULL, 'S');
 
-INSERT INTO tipos_ambientes (id_tipo_ambiente, nombre, estado) VALUES
-  (1, 'NORMAL', 'S'),
-  (2, 'HOSPITAL', 'S'),
-  (3, 'LAB.COMPUTACION', 'S'),
-  (4, 'LAB.FISICA', 'S'),
-  (5, 'ANFITEATRO', 'S');
+INSERT INTO tipos_ambientes (id_tipo_ambiente, nombre,icono , estado) VALUES
+  (1, 'NORMAL', 'normal.png','S'),
+  (2, 'HOSPITAL','lab_fisica.png', 'S'),
+  (3, 'LAB.COMPUTACION','lab_computacion.png', 'S'),
+  (4, 'LAB.FISICA','hospital.png', 'S'),
+  (5, 'ANFITEATRO','anfiteatro.png', 'S');
 
-INSERT INTO ambientes (id_ambiente, id_piso_bloque, id_tipo_ambiente, nombre, codigo, capacidad, imagen_exterior, imagen_interior, estado, metro_cuadrado) VALUES
-  (1, 1, 1, 'CPRIV-1', NULL, NULL, NULL, NULL, 'S', NULL),
-  (2, 1, 1, 'FISC/PRIV', NULL, NULL, NULL, NULL, 'S', NULL),
-  (3, 2, 1, 'ANF-1', NULL, NULL, NULL, NULL, 'S', NULL),
-  (4, 2, 1, 'ANF-2', NULL, NULL, NULL, NULL, 'S', NULL),
-  (5, 2, 1, 'ANF-3', NULL, NULL, NULL, NULL, 'S', NULL),
-  (6, 3, 1, 'SSU-1', NULL, NULL, NULL, NULL, 'S', NULL),
-  (7, 3, 1, 'SSU-2', NULL, NULL, NULL, NULL, 'S', NULL),
-  (8, 3, 1, 'SSU-3', NULL, NULL, NULL, NULL, 'S', NULL),
-  (9,  4, 1, 'CS-1/LAB', NULL, NULL, NULL, NULL, 'S', NULL),
-  (10, 4, 1, 'CS-2/LAB', NULL, NULL, NULL, NULL, 'S', NULL),
-  (11, 4, 1, 'CS-3/LAB', NULL, NULL, NULL, NULL, 'S', NULL),
-  (12, 4, 1, 'CS-4/LAB', NULL, NULL, NULL, NULL, 'S', NULL),
-  (13, 4, 1, 'CS-5/LAB', NULL, NULL, NULL, NULL, 'S', NULL),
-  (14, 4, 1, 'CS-6/LAB', NULL, NULL, NULL, NULL, 'S', NULL),
-  (15, 5, 1, 'CS-1/GAB', NULL, NULL, NULL, NULL, 'S', NULL),
-  (16, 5, 1, 'CS-2/GAB', NULL, NULL, NULL, NULL, 'S', NULL),
-  (17, 5, 1, 'CS-3/GAB', NULL, NULL, NULL, NULL, 'S', NULL),
-  (18, 5, 1, 'CS-4/GAB', NULL, NULL, NULL, NULL, 'S', NULL),
-  (19, 5, 1, 'CS-5/GAB', NULL, NULL, NULL, NULL, 'S', NULL),
-  (20, 5, 1, 'CS-6/GAB', NULL, NULL, NULL, NULL, 'S', NULL),
-  (21, 6, 1, 'CNS/SS-1', NULL, NULL, NULL, NULL, 'S', NULL),
-  (22, 6, 1, 'CNS/SS-2', NULL, NULL, NULL, NULL, 'S', NULL),
-  (23, 6, 1, 'CNS/SS-3', NULL, NULL, NULL, NULL, 'S', NULL),
-  (24, 6, 1, 'CNS/SS-4', NULL, NULL, NULL, NULL, 'S', NULL),
-  (25, 6, 1, 'CNS/SS-5', NULL, NULL, NULL, NULL, 'S', NULL),
-  (26, 6, 1, 'CNS/SS-6', NULL, NULL, NULL, NULL, 'S', NULL),
-  (27, 6, 1, 'CNS/SS-7', NULL, NULL, NULL, NULL, 'S', NULL),
-  (28, 6, 1, 'CNS/SS-8', NULL, NULL, NULL, NULL, 'S', NULL),
-  (29, 6, 1, 'CNS/SS-9', NULL, NULL, NULL, NULL, 'S', NULL),
-  (30, 6, 1, 'CNS/SS-10', NULL, NULL, NULL, NULL, 'S', NULL),
-  (31, 7, 1, 'HDB-1', NULL, NULL, NULL, NULL, 'S', NULL),
-  (32, 7, 1, 'HDB-2', NULL, NULL, NULL, NULL, 'S', NULL),
-  (33, 7, 1, 'HDB-3', NULL, NULL, NULL, NULL, 'S', NULL),
-  (34, 7, 1, 'HDB-4', NULL, NULL, NULL, NULL, 'S', NULL),
-  (35, 7, 1, 'HDB-5', NULL, NULL, NULL, NULL, 'S', NULL),
-  (36, 7, 1, 'HDB-6', NULL, NULL, NULL, NULL, 'S', NULL),
-  (37, 7, 1, 'HDB-7', NULL, NULL, NULL, NULL, 'S', NULL),
-  (38, 7, 1, 'HDB-8', NULL, NULL, NULL, NULL, 'S', NULL),
-  (39, 7, 1, 'HDB-9', NULL, NULL, NULL, NULL, 'S', NULL),
-  (40, 7, 1, 'HDB-10', NULL, NULL, NULL, NULL, 'S', NULL),
-  (41, 7, 1, 'HDB-11', NULL, NULL, NULL, NULL, 'S', NULL),
-  (42, 7, 1, 'HDB-12', NULL, NULL, NULL, NULL, 'S', NULL),
-  (43, 7, 1, 'HDB-13', NULL, NULL, NULL, NULL, 'S', NULL),
-  (44, 7, 1, 'HDB-14', NULL, NULL, NULL, NULL, 'S', NULL),
-  (45, 7, 1, 'HDB-15', NULL, NULL, NULL, NULL, 'S', NULL),
-  (46, 7, 1, 'HDB-16', NULL, NULL, NULL, NULL, 'S', NULL),
-  (47, 8, 1, 'HOSP/LAB-EMBRIO', NULL, NULL, NULL, NULL, 'S', NULL),
-  (48, 8, 1, 'HOSP/LAB-HISTO', NULL, NULL, NULL, NULL, 'S', NULL),
-  (49, 8, 1, 'HOSP/LAB-FISIO', NULL, NULL, NULL, NULL, 'S', NULL),
-  (50, 8, 1, 'HOSP/LAB-BIOQ', NULL, NULL, NULL, NULL, 'S', NULL),
-  (51, 8, 1, 'HOSP/LAB-PAR', NULL, NULL, NULL, NULL, 'S', NULL),
-  (52, 8, 1, 'HOSP/LAB-PATCLI', NULL, NULL, NULL, NULL, 'S', NULL),
-  (53, 8, 1, 'HOSP/LAB-BAC', NULL, NULL, NULL, NULL, 'S', NULL),
-  (54, 9, 1, 'PB-AMB01', NULL, NULL, NULL, NULL, 'S', NULL),
-  (55, 9, 1, 'PB-AMB02', NULL, NULL, NULL, NULL, 'S', NULL),
-  (56, 9, 1, 'PB-AMB03', NULL, NULL, NULL, NULL, 'S', NULL),
-  (57, 9, 1, 'PB-AMB04', NULL, NULL, NULL, NULL, 'S', NULL),
-  (58, 9, 1, 'PB-AMB05', NULL, NULL, NULL, NULL, 'S', NULL),
-  (59, 9, 1, 'PB-AMB06', NULL, NULL, NULL, NULL, 'S', NULL),
-  (60, 10, 1, 'P1-AMB01', NULL, NULL, NULL, NULL, 'S', NULL),
-  (61, 10, 1, 'P1-AMB02', NULL, NULL, NULL, NULL, 'S', NULL),
-  (62, 10, 1, 'P1-AMB03', NULL, NULL, NULL, NULL, 'S', NULL),
-  (63, 10, 1, 'P1-AMB04', NULL, NULL, NULL, NULL, 'S', NULL),
-  (64, 10, 1, 'P1-AMB05', NULL, NULL, NULL, NULL, 'S', NULL),
-  (65, 10, 1, 'P1-AMB06', NULL, NULL, NULL, NULL, 'S', NULL),
-  (66, 10, 1, 'P1-AMB07', NULL, NULL, NULL, NULL, 'S', NULL),
-  (67, 10, 1, 'P1-AMB08', NULL, NULL, NULL, NULL, 'S', NULL),
-  (68, 11, 1, 'P2-AMB01', NULL, NULL, NULL, NULL, 'S', NULL),
-  (69, 11, 1, 'P2-AMB02', NULL, NULL, NULL, NULL, 'S', NULL),
-  (70, 11, 1, 'P2-AMB03', NULL, NULL, NULL, NULL, 'S', NULL),
-  (71, 11, 1, 'P2-AMB04', NULL, NULL, NULL, NULL, 'S', NULL),
-  (72, 11, 1, 'P2-AMB05', NULL, NULL, NULL, NULL, 'S', NULL),
-  (73, 11, 1, 'P2-AMB06', NULL, NULL, NULL, NULL, 'S', NULL),
-  (74, 11, 1, 'P2-AMB07', NULL, NULL, NULL, NULL, 'S', NULL),
-  (75, 11, 1, 'P2-AMB08', NULL, NULL, NULL, NULL, 'S', NULL),
-  (76, 12, 1, 'P3-AMB01', NULL, NULL, NULL, NULL, 'S', NULL),
-  (77, 12, 1, 'P3-AMB02', NULL, NULL, NULL, NULL, 'S', NULL),
-  (78, 12, 1, 'P3-AMB03', NULL, NULL, NULL, NULL, 'S', NULL),
-  (79, 12, 1, 'P3-AMB04', NULL, NULL, NULL, NULL, 'S', NULL),
-  (80, 12, 1, 'P3-AMB05', NULL, NULL, NULL, NULL, 'S', NULL),
-  (81, 12, 1, 'P3-AMB06', NULL, NULL, NULL, NULL, 'S', NULL),
-  (82, 12, 1, 'P3-AMB07', NULL, NULL, NULL, NULL, 'S', NULL),
-  (83, 12, 1, 'P3-AMB08', NULL, NULL, NULL, NULL, 'S', NULL);
+INSERT INTO ambientes (id_piso_bloque, id_tipo_ambiente, nombre, codigo, capacidad, imagen_exterior, imagen_interior, estado, metro_cuadrado) VALUES
+  (1, 1, 'CPRIV-1', NULL, NULL, NULL, NULL, 'S', NULL),
+  (1, 1, 'FISC/PRIV', NULL, NULL, NULL, NULL, 'S', NULL),
+  (2, 1, 'ANF-1', NULL, NULL, NULL, NULL, 'S', NULL),
+  (2, 1, 'ANF-2', NULL, NULL, NULL, NULL, 'S', NULL),
+  (2, 1, 'ANF-3', NULL, NULL, NULL, NULL, 'S', NULL),
+  (3, 1, 'SSU-1', NULL, NULL, NULL, NULL, 'S', NULL),
+  (3, 1, 'SSU-2', NULL, NULL, NULL, NULL, 'S', NULL),
+  (3, 1, 'SSU-3', NULL, NULL, NULL, NULL, 'S', NULL),
+  ( 4, 1, 'CS-1/LAB', NULL, NULL, NULL, NULL, 'S', NULL),
+  (4, 1, 'CS-2/LAB', NULL, NULL, NULL, NULL, 'S', NULL),
+  (4, 1, 'CS-3/LAB', NULL, NULL, NULL, NULL, 'S', NULL),
+  (4, 1, 'CS-4/LAB', NULL, NULL, NULL, NULL, 'S', NULL),
+  (4, 1, 'CS-5/LAB', NULL, NULL, NULL, NULL, 'S', NULL),
+  (4, 1, 'CS-6/LAB', NULL, NULL, NULL, NULL, 'S', NULL),
+  (5, 1, 'CS-1/GAB', NULL, NULL, NULL, NULL, 'S', NULL),
+  (5, 1, 'CS-2/GAB', NULL, NULL, NULL, NULL, 'S', NULL),
+  (5, 1, 'CS-3/GAB', NULL, NULL, NULL, NULL, 'S', NULL),
+  (5, 1, 'CS-4/GAB', NULL, NULL, NULL, NULL, 'S', NULL),
+  (5, 1, 'CS-5/GAB', NULL, NULL, NULL, NULL, 'S', NULL),
+  (5, 1, 'CS-6/GAB', NULL, NULL, NULL, NULL, 'S', NULL),
+  (6, 1, 'CNS/SS-1', NULL, NULL, NULL, NULL, 'S', NULL),
+  (6, 1, 'CNS/SS-2', NULL, NULL, NULL, NULL, 'S', NULL),
+  (6, 1, 'CNS/SS-3', NULL, NULL, NULL, NULL, 'S', NULL),
+  (6, 1, 'CNS/SS-4', NULL, NULL, NULL, NULL, 'S', NULL),
+  (6, 1, 'CNS/SS-5', NULL, NULL, NULL, NULL, 'S', NULL),
+  (6, 1, 'CNS/SS-6', NULL, NULL, NULL, NULL, 'S', NULL),
+  (6, 1, 'CNS/SS-7', NULL, NULL, NULL, NULL, 'S', NULL),
+  (6, 1, 'CNS/SS-8', NULL, NULL, NULL, NULL, 'S', NULL),
+  (6, 1, 'CNS/SS-9', NULL, NULL, NULL, NULL, 'S', NULL),
+  (6, 1, 'CNS/SS-10', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-1', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-2', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-3', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-4', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-5', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-6', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-7', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-8', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-9', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-10', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-11', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-12', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-13', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-14', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-15', NULL, NULL, NULL, NULL, 'S', NULL),
+  (7, 1, 'HDB-16', NULL, NULL, NULL, NULL, 'S', NULL),
+  (8, 1, 'HOSP/LAB-EMBRIO', NULL, NULL, NULL, NULL, 'S', NULL),
+  (8, 1, 'HOSP/LAB-HISTO', NULL, NULL, NULL, NULL, 'S', NULL),
+  (8, 1, 'HOSP/LAB-FISIO', NULL, NULL, NULL, NULL, 'S', NULL),
+  (8, 1, 'HOSP/LAB-BIOQ', NULL, NULL, NULL, NULL, 'S', NULL),
+  (8, 1, 'HOSP/LAB-PAR', NULL, NULL, NULL, NULL, 'S', NULL),
+  (8, 1, 'HOSP/LAB-PATCLI', NULL, NULL, NULL, NULL, 'S', NULL),
+  (8, 1, 'HOSP/LAB-BAC', NULL, NULL, NULL, NULL, 'S', NULL),
+  (9, 1, 'PB-AMB01', NULL, NULL, NULL, NULL, 'S', NULL),
+  (9, 1, 'PB-AMB02', NULL, NULL, NULL, NULL, 'S', NULL),
+  (9, 1, 'PB-AMB03', NULL, NULL, NULL, NULL, 'S', NULL),
+  (9, 1, 'PB-AMB04', NULL, NULL, NULL, NULL, 'S', NULL),
+  (9, 1, 'PB-AMB05', NULL, NULL, NULL, NULL, 'S', NULL),
+  (9, 1, 'PB-AMB06', NULL, NULL, NULL, NULL, 'S', NULL),
+  (10, 1, 'P1-AMB01', NULL, NULL, NULL, NULL, 'S', NULL),
+  (10, 1, 'P1-AMB02', NULL, NULL, NULL, NULL, 'S', NULL),
+  (10, 1, 'P1-AMB03', NULL, NULL, NULL, NULL, 'S', NULL),
+  (10, 1, 'P1-AMB04', NULL, NULL, NULL, NULL, 'S', NULL),
+  (10, 1, 'P1-AMB05', NULL, NULL, NULL, NULL, 'S', NULL),
+  (10, 1, 'P1-AMB06', NULL, NULL, NULL, NULL, 'S', NULL),
+  (10, 1, 'P1-AMB07', NULL, NULL, NULL, NULL, 'S', NULL),
+  (10, 1, 'P1-AMB08', NULL, NULL, NULL, NULL, 'S', NULL),
+  (11, 1, 'P2-AMB01', NULL, NULL, NULL, NULL, 'S', NULL),
+  (11, 1, 'P2-AMB02', NULL, NULL, NULL, NULL, 'S', NULL),
+  (11, 1, 'P2-AMB03', NULL, NULL, NULL, NULL, 'S', NULL),
+  (11, 1, 'P2-AMB04', NULL, NULL, NULL, NULL, 'S', NULL),
+  (11, 1, 'P2-AMB05', NULL, NULL, NULL, NULL, 'S', NULL),
+  (11, 1, 'P2-AMB06', NULL, NULL, NULL, NULL, 'S', NULL),
+  (11, 1, 'P2-AMB07', NULL, NULL, NULL, NULL, 'S', NULL),
+  (11, 1, 'P2-AMB08', NULL, NULL, NULL, NULL, 'S', NULL),
+  (12, 1, 'P3-AMB01', NULL, NULL, NULL, NULL, 'S', NULL),
+  (12, 1, 'P3-AMB02', NULL, NULL, NULL, NULL, 'S', NULL),
+  (12, 1, 'P3-AMB03', NULL, NULL, NULL, NULL, 'S', NULL),
+  (12, 1, 'P3-AMB04', NULL, NULL, NULL, NULL, 'S', NULL),
+  (12, 1, 'P3-AMB05', NULL, NULL, NULL, NULL, 'S', NULL),
+  (12, 1, 'P3-AMB06', NULL, NULL, NULL, NULL, 'S', NULL),
+  (12, 1, 'P3-AMB07', NULL, NULL, NULL, NULL, 'S', NULL),
+  (12, 1, 'P3-AMB08', NULL, NULL, NULL, NULL, 'S', NULL);
 
+
+
+---------views-------------
+create view edicio_campus as
+select e.* , c.nombre as campus, c.poligono
+from edificios e 
+inner join campus c
+on e.id_campu = c.id_campu;
+
+create view piso_view as
+select  p.id_piso,p.numero,p.nombre,p.estado, pb.nombre as piso_bloque, b.nombre as bloque
+from pisos p 
+inner join pisos_bloques pb 
+on p.id_piso = pb.id_piso
+inner join bloques b 
+on b.id_bloque = pb.id_bloque;
+
+create view edificio_piso as
+select  e.id_edificio ,e.nombre, 
+p.id_piso, p.nombre as piso,p.numero as numero_piso, p.estado as piso_estado,
+b.nombre as bloque ,pb.nombre as piso_bloque
+from edificios e
+inner join bloques b 
+on e.id_edificio = b.id_edificio
+inner join pisos_bloques pb 
+on  pb.id_bloque = b.id_bloque
+inner join pisos p  
+on  p.id_piso = pb.id_piso;
+
+ create view ambiente_piso_bloque as
+ select a.id_ambiente,a.nombre, e.id_edificio, e.nombre as edificio ,p.numero as numero_piso ,pb.nombre as piso_bloque, ta.icono as icono, 
+ ta.nombre as tipo_ambiente,
+ a.codigo, a.capacidad, a.metro_cuadrado, a.imagen_exterior, a.imagen_interior, a.estado
+ from ambientes a 
+ inner join pisos_bloques pb 
+ on a.id_piso_bloque = pb.id_piso_bloque
+ inner join bloques b  
+ on b.id_bloque = pb.id_bloque
+ inner join edificios e 
+ on e.id_edificio = b.id_edificio
+ inner join pisos p  
+ on p.id_piso = pb.id_piso
+ inner join tipos_ambientes ta
+ on ta.id_tipo_ambiente = a.id_tipo_ambiente;
+
+select * from piso_view;
+
+select * from edicio_campus;
+drop view edicio_campus;
+
+select * from edificio_piso;
+drop view edificio_piso;
+
+select * from ambiente_piso_bloque;
+drop view ambiente_piso_bloque;
+
+select * from tipos_ambientes;
+select * from edificios e ;
+
+select * from bloques b ;
+select * from pisos p ;
+select * from pisos_bloques;
+select * from tipos_ambientes;
+select * from ambientes;
+select * from campus c;
+select * from edificios ;

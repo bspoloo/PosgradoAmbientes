@@ -30,12 +30,11 @@
             </div>
             <div>
                 <h2>Nombre: {{ $edificio->nombre }}</h2>
-            </div>
-            <div class="container">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-add-piso">
                     Añadir Piso
                 </button>
             </div>
+
         </div>
 
         <div class="edificio">
@@ -59,6 +58,9 @@
                             </x-slot>
                             <x-slot name="nombre">
                                 {{ $ambiente->nombre }}
+                            </x-slot>
+                            <x-slot name="piso_bloque">
+                                {{ $ambiente->piso_bloque }}
                             </x-slot>
                         </x-ambiente>
                     @endforeach

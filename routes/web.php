@@ -3,6 +3,7 @@
 use App\Http\Controllers\Ambiente\AmbienteController;
 use App\Http\Controllers\Edificio\EdificioController;
 use App\Http\Controllers\Piso\PisoController;
+use App\Http\Controllers\PisoBloque\PisoBloqueController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -18,4 +19,5 @@ Route::delete('ambientes/{id_ambiente}', [AmbienteController::class, 'destroy'])
 Route::get('edificios', [EdificioController::class, 'getEdificios']);
 Route::get('edificios/{id_edificio}', [EdificioController::class, 'getEdificioById']);
 
+Route::get('pisos_bloques/{id_edificio}', [PisoBloqueController::class, 'getPisosBloques']);
 

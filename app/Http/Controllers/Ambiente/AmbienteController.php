@@ -30,11 +30,9 @@ class AmbienteController extends Controller
     }
     public function edit($id_ambiente)
     {
-        $where = array('id_ambiente' => $id_ambiente);
-        $table  = $this->model::where($where)->first();
+        $table  = $this->model::findOrfail($id_ambiente);
         $table['id'] = $table->id_ambiente;
         return response()->json($table);
-
     }
 
     public function store(Request $request)
@@ -59,9 +57,7 @@ class AmbienteController extends Controller
         }
 
         $ambiente = $this->model::updateOrCreate(
-            [
-                'id_ambiente' => $request->id_ambiente
-            ],
+            ['id_ambiente' => $request->id_ambiente],
             [
                 'id_piso_bloque' => $request->id_piso_bloque,
                 'id_tipo_ambiente' => $request->id_tipo_ambiente,

@@ -12,7 +12,7 @@ $(document).ready(function () {
     });
 
     let URLindex = '/ambientes';
-    let titulo = 'Ambientes';
+    let titulo = 'Ambiente';
 
     $('#form').on('submit', function (e) {
         e.preventDefault();
@@ -55,7 +55,7 @@ $(document).ready(function () {
     $('#createNewRecord').on("click", function () {
         $('#table_id').val('');
         $('#form')[0].reset();
-        $('#modelHeading').html("Crear nueva " + titulo);
+        $('#modelHeading').html("Crear nuevo " + titulo);
         $('#ajaxModel').modal('show');
     });
 

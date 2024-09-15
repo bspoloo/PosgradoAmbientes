@@ -2626,21 +2626,21 @@ on  pb.id_bloque = b.id_bloque
 inner join pisos p  
 on  p.id_piso = pb.id_piso;
 
- create view ambiente_piso_bloque as
- select a.id_ambiente,a.nombre, e.id_edificio, e.nombre as edificio ,p.numero as numero_piso ,pb.nombre as piso_bloque, ta.icono as icono, 
- ta.nombre as tipo_ambiente,
- a.codigo, a.capacidad, a.metro_cuadrado, a.imagen_exterior, a.imagen_interior, a.estado
- from ambientes a 
- inner join pisos_bloques pb 
- on a.id_piso_bloque = pb.id_piso_bloque
- inner join bloques b  
- on b.id_bloque = pb.id_bloque
- inner join edificios e 
- on e.id_edificio = b.id_edificio
- inner join pisos p  
- on p.id_piso = pb.id_piso
- inner join tipos_ambientes ta
- on ta.id_tipo_ambiente = a.id_tipo_ambiente;
+create view ambiente_piso_bloque as
+select a.id_ambiente,a.nombre, e.id_edificio, e.nombre as edificio ,p.numero as numero_piso ,pb.nombre as piso_bloque, ta.icono as icono, 
+ta.nombre as tipo_ambiente,
+a.codigo, a.capacidad, a.metro_cuadrado, a.imagen_exterior, a.imagen_interior, a.estado
+from ambientes a 
+inner join pisos_bloques pb 
+on a.id_piso_bloque = pb.id_piso_bloque
+inner join bloques b  
+on b.id_bloque = pb.id_bloque
+inner join edificios e 
+on e.id_edificio = b.id_edificio
+inner join pisos p  
+on p.id_piso = pb.id_piso
+inner join tipos_ambientes ta
+on ta.id_tipo_ambiente = a.id_tipo_ambiente;
 
 create view edifcio_piso_bloque as
 select e.id_edificio, e.nombre ,b.id_bloque ,b.nombre as bloque, 

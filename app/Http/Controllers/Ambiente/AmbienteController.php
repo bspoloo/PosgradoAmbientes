@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Ambiente;
 
+use App\Classes\Ambiente\AmbienteManager;
 use App\Http\Controllers\Controller;
 use App\Models\Ambiente\Ambiente;
+use App\Models\Edificio\Edificio;
+use App\Models\Piso\Piso;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -13,9 +17,11 @@ class AmbienteController extends Controller
     public $model;
     public $data;
     public $validator;
+    public $ambienteMangaber;
     public function __construct()
     {
         $this->model = new Ambiente();
+        $this->ambienteMangaber = new AmbienteManager();
         $this->data = [
             'id_piso_bloque' => 'required | string',
             'id_tipo_ambiente' => 'required | string',
@@ -27,6 +33,15 @@ class AmbienteController extends Controller
             'imagen_interior' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'estado' => 'required | string',
         ];
+    }
+    public function getAmbientes($id_edificio_piso)
+    {
+        $data = explode('_', $id_edificio_piso);
+
+        $edificio = Edificio::findOrfail($data[0]);
+        $piso = Piso::findOrfail($data[1]);
+
+        return response()->json($this->ambienteMangaber->getAmbientes($edificio, $piso->numero));
     }
     public function edit($id_ambiente)
     {

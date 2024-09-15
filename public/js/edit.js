@@ -56,12 +56,14 @@ $(document).ready(function () {
         var button_value = $(this).data('value');
         var $select = $('#id_piso_bloque');
         $select.empty();
-        
-        $('#table_id').val('');
-        $('#form')[0].reset();
-        $('#modelHeading').html("Crear nuevo " + titulo);
-        $('#ajaxModel').modal('show');
 
+        $('#id_ambiente').val('');
+        $('#form')[0].reset();
+    
+        $('#form-container .form-title').html("Crear nuevo " + titulo);
+        $('#form-container').addClass('visible');
+    
+        // Obtener los datos de los pisos y bloques de manera dinámica
         $.get(`/pisos_bloques/${button_value}`, function (data) {
             console.log(data);
             $.each(data, function (index, item) {
@@ -73,12 +75,15 @@ $(document).ready(function () {
     $('body').on('click', '.editRecord', function () {
         var table_id = $(this).data('id');
         var button_value = $(this).data('value');
+        console.log(button_value);
+
         var $select = $('#id_piso_bloque');
         $select.empty();
 
         $.get(URLindex + '/' + table_id + '/edit', function (data) {
-            $('#modelHeading').html("Editar " + titulo);
-            $('#ajaxModel').modal('show');
+            $('#form-title').html("Editar " + titulo);
+            $('#form-container').removeClass('hidden');
+            $('#form-container').addClass('visible');
             $('#table_id').val(data.id);
 
             $.each(data, function (index, itemData) {
@@ -101,6 +106,11 @@ $(document).ready(function () {
                 $select.append('<option value="' + item.id_piso_bloque + '">' + item.piso_bloque + '</option>');
             });
         });
+    });
+
+    $('#close-form').click(function() {
+        $('#form-container').addClass('hidden');
+        $('#form-container').removeClass('visible');
     });
 
     $('body').on('click', '.deleteRecord', function () {

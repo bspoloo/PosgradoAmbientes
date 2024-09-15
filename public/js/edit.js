@@ -53,6 +53,9 @@ $(document).ready(function () {
     });
 
     $('body').on("click", ".createNewRecord", function () {
+
+        console.log('furual en creawte xd');
+        
         var button_value = $(this).data('value');
         var $select = $('#id_piso_bloque');
         $select.empty();
@@ -73,6 +76,7 @@ $(document).ready(function () {
     });
 
     $('body').on('click', '.editRecord', function () {
+
         var table_id = $(this).data('id');
         var button_value = $(this).data('value');
         console.log(button_value);
@@ -109,8 +113,12 @@ $(document).ready(function () {
     });
 
     $('#close-form').click(function() {
+
         $('#form-container').addClass('hidden');
         $('#form-container').removeClass('visible');
+
+        $('#form-container-piso').addClass('hidden');
+        $('#form-container-piso').removeClass('visible');
     });
 
     $('body').on('click', '.deleteRecord', function () {

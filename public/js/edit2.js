@@ -40,6 +40,18 @@ $('#form2').on('submit', function (e) {
     });
 });
 
+
+$('body').on("click", ".createNewPiso", function () {
+    var $select = $('#id_piso_bloque');
+    $select.empty();
+
+    $('#id_ambiente').val('');
+    $('#form')[0].reset();
+
+    $('#form-container-piso .form-title-piso').html("Crear nuevo Piso");
+    $('#form-container-piso').addClass('visible');
+});
+
 $('body').on('click', '.deletePiso', function () {
 
     console.log('fural');
@@ -59,4 +71,9 @@ $('body').on('click', '.deletePiso', function () {
             }
         });
     }
+});
+
+$('#close-form2').click(function() {
+    $('#form-container-piso').addClass('hidden');
+    $('#form-container-piso').removeClass('visible');
 });

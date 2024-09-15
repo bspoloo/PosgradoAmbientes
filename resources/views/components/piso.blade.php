@@ -3,8 +3,7 @@
     {{ $numero_piso }}
 
     <div class="actions">
-        <button type="button" class="btn btn-primary btn-sm createNewRecord" data-bs-toggle="modal"
-            data-bs-target="#modal-center" data-value='{{ $id_edificio }}_{{ $id_piso }}'><i
+        <button type="button" class="btn btn-primary btn-sm createNewRecord" data-value='{{ $id_edificio }}_{{ $id_piso }}'><i
                 class="fa fa-create"></i>+</button>
                 
         <button id="toggleButton" class="toggleButton" data-value='{{ $id_edificio }}_{{ $id_piso }}'>

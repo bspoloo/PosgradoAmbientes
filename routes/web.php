@@ -7,6 +7,7 @@ use App\Http\Controllers\PisoBloque\PisoBloqueController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('pisos', [PisoController::class, 'store']);
+Route::delete('pisos/{id_piso}', [PisoController::class, 'destroy']);
 
 Route::get('ambientes/{id_edificio_piso}', [AmbienteController::class, 'getAmbientes']);
 Route::get('ambientes/{id_ambiente}/edit', [AmbienteController::class, 'edit']);

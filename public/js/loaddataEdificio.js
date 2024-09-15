@@ -56,8 +56,7 @@ $(document).ready(function () {
                     <div class="data-form">
                         ${ambiente.piso_bloque}
                     </div>
-                    <a href="javascript:void(0)" class="btn deleteRecord" data-id="${ambiente.id_ambiente}" ><i class="fa fa-trash"></i><img
-                            src="/images/borrar.png" width="30px" alt="delete ${ambiente.nombre}"></a>
+
                 </div>`;
             })}
         </div>

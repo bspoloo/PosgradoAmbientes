@@ -39,3 +39,24 @@ $('#form2').on('submit', function (e) {
         }
     });
 });
+
+$('body').on('click', '.deletePiso', function () {
+
+    console.log('fural');
+    var table_id = $(this).data("id");
+    let sino = confirm("Confirma borrar el Piso?");
+
+    if (sino) {
+        $.ajax({
+            type: "DELETE",
+            url: '/pisos/' + table_id,
+            success: function (data) {
+                location.reload();
+            },
+            error: function (data) {
+                alert('Error al eliminar: ' + data.responseText);
+                console.log('Error:', data);
+            }
+        });
+    }
+});

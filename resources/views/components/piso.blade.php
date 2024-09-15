@@ -10,7 +10,7 @@
         <button id="toggleButton" class="toggleButton" data-value='{{ $id_edificio }}_{{ $id_piso }}'>
             <img src="/images/ojo.png" alt="open-piso" width="20px">
         </button>
-        <button id="deletePiso" data-value='{{ $id_piso }}'>
+        <button id="deletePiso" data-value='{{ $id_piso }}' class="deletePiso"  data-id="{{ $id_piso }}">
             <img src="/images/borrar.png" alt="open-piso" width="20px">
         </button>
     </div>

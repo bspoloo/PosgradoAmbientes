@@ -32,9 +32,7 @@
                 </div>
                 <div class="actions">
                     <h2>Nombre: {{ $edificio->nombre }}</h2>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-add-piso">
-                        Añadir Piso
-                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-add-piso">+</button>
                     <button id="openEdificioButton" class="openEdificioButton" data-value={{$edificio->id_edificio}}>
                         <img src="/images/ojo.png" alt="open-edificio" width="35px">
                     </button>
@@ -188,10 +186,7 @@
                             <div class="">
                                 <select class="form-select mb-4" name="id_piso" id="id_piso">
 
-                                    @foreach ($pisos_ambientes as $piso)
-                                        <option value="{{ $piso->id_piso }}">{{ $piso->numero }}.- {{ $piso->nombre }}
-                                        </option>
-                                    @endforeach
+                                    <option value="{{ $pisos_ambientes[0]->id_piso }}">{{ $pisos_ambientes[0]->numero }}.- {{ $pisos_ambientes[0]->nombre }}</option>
 
                                 </select>
                                 @php
@@ -268,10 +263,10 @@
                 </div>
             </div>
         </div>
+        <script src="{{ URL::asset('js/edit2.js') }}"></script>
         <script src="{{ URL::asset('js/loaddataAmbiente.js') }}"></script>
         <script src="{{ URL::asset('js/loaddataEdificio.js') }}"></script>
-        <script src="{{ URL::asset('js/loaddataFormAmbiente.js') }}"></script>
         <script src="{{ URL::asset('js/edit.js') }}"></script>
-        <script src="{{ URL::asset('js/edit2.js') }}"></script>
+
     </body>
 @endsection

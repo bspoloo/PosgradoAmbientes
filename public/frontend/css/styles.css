@@ -327,7 +327,6 @@ h2 {
     max-width: 20%; 
     height: auto;
 }
-
 .ambiente h2 {
     color: #333;
     font-size: 1.5em;
@@ -340,6 +339,7 @@ h2 {
 .menu-pisos{
     display: flex;
     flex-direction: row;
+    gap: 10px;
 }
 .scroll{
     width: 100%;

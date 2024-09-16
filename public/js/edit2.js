@@ -21,7 +21,6 @@ $('#form2').on('submit', function (e) {
         },
         error: function (data) {
             console.log('Error:', data);
-
             if (data.responseJSON) {
                 // Limpiar los errores anteriores
                 $('#form input, #form select').removeClass('is-invalid');
@@ -40,7 +39,6 @@ $('#form2').on('submit', function (e) {
     });
 });
 
-
 $('body').on("click", ".createNewPiso", function () {
     var $select = $('#id_piso_bloque');
     $select.empty();
@@ -54,7 +52,6 @@ $('body').on("click", ".createNewPiso", function () {
 
 $('body').on('click', '.deletePiso', function () {
 
-    console.log('fural');
     var table_id = $(this).data("id");
     let sino = confirm("Confirma borrar el Piso?");
 

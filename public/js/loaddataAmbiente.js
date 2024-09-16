@@ -3,8 +3,7 @@ $(document).ready(function () {
 
     $('body').on('click', '.toggleButton', function () {
         var button_value = $(this).data('value');
-        console.log(button_value);
-    
+
         if (isOpen) {
             $('#ambientesContainer' + button_value).hide();
             $(this).find('img').attr('src', '/images/ojo.png').attr('alt', 'Abrir');
@@ -17,16 +16,12 @@ $(document).ready(function () {
     });
 
     function cargarAmbientes(button_value) {
-        console.log(button_value);
         $.ajax({
             url: `/ambientes/${button_value}`,
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                console.log('el id: ' + response);
                 $('#ambientesContainer' + button_value).empty();
-
-                // Iterar sobre los ambientes recibidos y agregarlos al contenedor
                 $.each(response, function (index, ambiente) {
                     $('#ambientesContainer' + button_value).append(getAmbiente(ambiente, button_value));
                 });

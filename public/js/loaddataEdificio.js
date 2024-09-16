@@ -26,7 +26,6 @@ $(document).ready(function () {
                 $('#edificioContainer' + id_edificio).empty();
 
                 $.each(response, function (index, piso) {
-                    console.log(piso);
                     $('#edificioContainer' + id_edificio).append(getEdificio(piso, id_edificio));
                 });
             },
@@ -47,8 +46,7 @@ $(document).ready(function () {
                 return `
                 <div class="ambiente-container">
                     <button type="button" class="ambiente btn btn-primary btn-sm editRecord" data-id="${ambiente.id_ambiente}" data-value='${id_edificio}_${piso.id_piso}'
-                        data-icono="${ambiente.icono}" data-nombre="${ambiente.nombre}" data-bs-toggle="modal"
-                        data-bs-target="#modal-center">
+                        data-icono="${ambiente.icono}" data-nombre="${ambiente.nombre}">
                         <i class="fa fa-edit"></i>
                         <img src="/images/${ambiente.icono}" alt="${ambiente.nombre}" width="300px">
                         <h2>${ambiente.nombre}</h2>

@@ -53,8 +53,6 @@ $(document).ready(function () {
 
     $('body').on("click", ".createNewRecord", function () {
 
-        console.log('furual en creawte xd');
-
         var button_value = $(this).data('value');
         var $select = $('#id_piso_bloque');
         $select.empty();
@@ -67,7 +65,6 @@ $(document).ready(function () {
 
         // Obtener los datos de los pisos y bloques de manera dinámica
         $.get(`/pisos_bloques/${button_value}`, function (data) {
-            console.log(data);
             $.each(data, function (index, item) {
                 $select.append('<option value="' + item.id_piso_bloque + '">' + item.piso_bloque + '</option>');
             });
@@ -77,7 +74,6 @@ $(document).ready(function () {
     $('body').on('click', '.editRecord', function () {
         var table_id = $(this).data('id');
         var button_value = $(this).data('value');
-        console.log(button_value);
         var $select = $('#id_piso_bloque');
         $select.empty();
 
@@ -104,7 +100,6 @@ $(document).ready(function () {
         });
 
         $.get(`/pisos_bloques/${button_value}`, function (data) {
-            console.log(data);
             $.each(data, function (index, item) {
                 $select.append($('<option>', {
                     value: item.id_piso_bloque,

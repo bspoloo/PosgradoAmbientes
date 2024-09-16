@@ -29,13 +29,12 @@ $(document).ready(function () {
             success: function (data) {
                 $('#form')[0].reset();
                 $('#ajaxModel').modal('hide');
-                location.reload();  // Recargar la página para reflejar cambios
+                location.reload();
             },
             error: function (data) {
                 console.log('Error:', data);
 
                 if (data.responseJSON) {
-                    // Limpiar los errores anteriores
                     $('#form input, #form select').removeClass('is-invalid');
                     $('.invalid-feedback').remove();
 
@@ -55,17 +54,17 @@ $(document).ready(function () {
     $('body').on("click", ".createNewRecord", function () {
 
         console.log('furual en creawte xd');
-        
+
         var button_value = $(this).data('value');
         var $select = $('#id_piso_bloque');
         $select.empty();
 
         $('#id_ambiente').val('');
         $('#form')[0].reset();
-    
+
         $('#form-container .form-title').html("Crear nuevo " + titulo);
         $('#form-container').addClass('visible');
-    
+
         // Obtener los datos de los pisos y bloques de manera dinámica
         $.get(`/pisos_bloques/${button_value}`, function (data) {
             console.log(data);
@@ -76,28 +75,28 @@ $(document).ready(function () {
     });
 
     $('body').on('click', '.editRecord', function () {
-
         var table_id = $(this).data('id');
         var button_value = $(this).data('value');
         console.log(button_value);
-
         var $select = $('#id_piso_bloque');
         $select.empty();
 
         $.get(URLindex + '/' + table_id + '/edit', function (data) {
             $('#form-title').html("Editar " + titulo);
-            $('#form-container').removeClass('hidden');
-            $('#form-container').addClass('visible');
+            $('#form-container').removeClass('hidden').addClass('visible');
             $('#table_id').val(data.id);
 
             $.each(data, function (index, itemData) {
                 var element = $('[name="' + index + '"]');
-
                 if (element.is('select')) {
                     element.val(itemData).change();
                 } else if (element.is('input[type="file"]')) {
                     var id_preview = '#preview-' + index;
-                    $(id_preview).attr('src', '/images/' + itemData);
+                    if (itemData) {
+                        $(id_preview).attr('src', '/images/' + itemData).show();
+                    } else {
+                        $(id_preview).hide();
+                    }
                 } else {
                     element.val(itemData);
                 }
@@ -107,12 +106,32 @@ $(document).ready(function () {
         $.get(`/pisos_bloques/${button_value}`, function (data) {
             console.log(data);
             $.each(data, function (index, item) {
-                $select.append('<option value="' + item.id_piso_bloque + '">' + item.piso_bloque + '</option>');
+                $select.append($('<option>', {
+                    value: item.id_piso_bloque,
+                    text: item.piso_bloque
+                }));
             });
         });
     });
 
-    $('#close-form').click(function() {
+    $('input[type="file"]').on('change', function () {
+        var input = this;
+        var id_preview = '#preview-' + $(input).attr('name');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $(id_preview).attr('src', e.target.result).show();
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            $(id_preview).hide();
+        }
+    });
+
+    $('#close-form').click(function () {
 
         $('#form-container').addClass('hidden');
         $('#form-container').removeClass('visible');

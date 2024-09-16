@@ -29,8 +29,6 @@ class AmbienteController extends Controller
             'codigo' => 'required | string',
             'capacidad' => 'required | string',
             'metro_cuadrado' => 'required | string',
-            'imagen_exterior' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'imagen_interior' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'estado' => 'required | string',
         ];
     }

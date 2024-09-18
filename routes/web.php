@@ -16,7 +16,7 @@ Route::delete('ambientes/{id_ambiente}', [AmbienteController::class, 'destroy'])
 
 Route::get('edificios', [EdificioController::class, 'getEdificios']);
 Route::get('edificios/{id_edificio}', [EdificioController::class, 'getEdificioById']);
+Route::post('edificios', [EdificioController::class, 'updateLocationPoligon']);
 Route::get('edificios_ambientes/{id_edificio}', [EdificioController::class, 'getEdificioAmbiente']);
 
 Route::get('pisos_bloques/{id_edificio_piso}', [PisoBloqueController::class, 'getPisosBloques']);
-

@@ -6,10 +6,12 @@ $(document).ready(function () {
 
         if (isOpen) {
             $('#ambientesContainer' + button_value).hide();
+            $('#ambienteContainer').hide();
             $(this).find('img').attr('src', '/images/ojo.png').attr('alt', 'Abrir');
         } else {
             cargarAmbientes(button_value);
             $('#ambientesContainer' + button_value).show();
+            $('#ambienteContainer').show();
             $(this).find('img').attr('src', '/images/ojo2.png').attr('alt', 'Cerrar');
         }
         isOpen = !isOpen;
@@ -21,9 +23,10 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                $('#ambientesContainer' + button_value).empty();
+                $('#ambienteContainer').empty();
+                
                 $.each(response, function (index, ambiente) {
-                    $('#ambientesContainer' + button_value).append(getAmbiente(ambiente, button_value));
+                    $('#ambienteContainer').append(getAmbiente(ambiente, button_value));
                 });
             },
             error: function (xhr) {
@@ -34,7 +37,7 @@ $(document).ready(function () {
     function getAmbiente(ambiente, button_value) {
         return `
         <div class="ambiente-container">
-            <button type="button" class="ambiente editRecord btn btn-primary btn-sm" data-id="${ambiente.id_ambiente}" data-value='${button_value.split('_')[0]}_${button_value.split('_')[1]}'
+            <button type="button" class="ambiente editRecord btn btn-primary btn-sm" data-id="${ambiente.id_ambiente}" data-value='${button_value.split('')[0]}${button_value.split('_')[1]}'
                 data-icono="${ambiente.icono}" data-nombre="${ambiente.nombre}">
                 <i class="fa fa-edit"></i>
                 <img src="/images/${ambiente.icono}" alt="${ambiente.nombre}" width="100px">

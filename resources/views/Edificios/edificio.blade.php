@@ -27,20 +27,33 @@
         <div class="menu-pisos">
             <div class="container">
                 <div>
-                    <img class="rounded-img" src="/images/{{ $edificio->imagen }}" alt="{{ $edificio->imagen }}"
-                        width="300px">
-                </div>
-                <div class="actions">
-                    <h2>Nombre: {{ $edificio->nombre }}</h2>
+                    <div><img class="rounded-img" src="/images/{{ $edificio->imagen }}" alt="{{ $edificio->imagen }}"
+                            width="400px"></div>
+                    <div class="actions">
+                        <h2>Nombre: {{ $edificio->nombre }}</h2>
 
-                    <button type="button" class="btn btn-primary btn-sm createNewPiso"  ><i class="fa fa-create"></i>+</button>
+                        <button type="button" class="btn btn-primary btn-sm createNewPiso"><i
+                                class="fa fa-create"></i>+</button>
 
-                    <button id="openEdificioButton" class="openEdificioButton" data-value={{ $edificio->id_edificio }}>
-                        <img src="/images/ojo.png" alt="open-edificio" width="35px">
-                    </button>
+                        <button id="openEdificioButton" class="openEdificioButton" data-value={{ $edificio->id_edificio }}>
+                            <img src="/images/ojo.png" alt="open-edificio" width="25px">
+                        </button>
+
+                        <button id="editLocation" class="editLocation">
+                            <img id="editLocationIcon" src="/images/lapiz-abierto.png" alt="Editar ubicacion" width="25px">
+                        </button>
+                        <button id="editPoligono" class="editLocation">
+                            <img id="editPoligonoIcon" src="/images/poligono-abierto.png" alt="Editar ubicacion" width="25px">
+                        </button>
+                        <button id="editDataEdificio" class="btn btn-primary btn-sm editDataEdificio">
+                            Save
+                        </button>
+                    </div>
+                    <div id="mapEdificio" style="height: 300px;"></div>
                 </div>
+
             </div>
-            <divc class="container">
+            <div class="container">
                 <div class="scroll">
                     @foreach ($pisos_ambientes as $piso)
                         <x-piso type="info">
@@ -59,6 +72,7 @@
                         </x-piso>
                     @endforeach
                 </div>
+            </div>
         </div>
 
         <div id="form-container" class="hidden ">
@@ -168,6 +182,10 @@
             </div>
         </div>
 
+        <div id="ambienteContainer" style="display: none;" class="ambientes">
+            ambiente
+        </div>
+
         <div id="edificioContainer{{ $edificio->id_edificio }}" style="display: none;" class="edificio">
             <!-- Los ambientes se cargarán aquí -->
         </div>
@@ -265,10 +283,56 @@
             </div>
         </div>
 
+        <script>
+
+            var edificio = @json($edificio);
+
+            var map = L.map('mapEdificio').setView([edificio.latitud, edificio.longitud], 20);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            var customIcon = L.icon({
+                iconUrl: `/images/${edificio.imagen}`,
+                iconSize: [100, 100],
+                iconAnchor: [50, 50],
+                popupAnchor: [-3, -38]
+            });
+
+            var marker = L.marker([edificio.latitud, edificio.longitud], {
+                    icon: customIcon
+                }).addTo(map)
+                .bindPopup(edificio.nombre);
+
+            marker.on('click', function() {
+                window.edificio.href = `/edificios/${edificio.id_edificio}`;
+            });
+
+            if (edificio.poligono) {
+                var coordsString = edificio.poligono;
+                var coordPairs = coordsString.split(',');
+                var polygonCoords = [];
+
+                for (var i = 0; i < coordPairs.length; i += 2) {
+                    var lat = parseFloat(coordPairs[i]);
+                    var lng = parseFloat(coordPairs[i + 1]);
+                    polygonCoords.push([lat, lng]);
+                }
+
+                var polygon = L.polygon(polygonCoords, {
+                    color: 'blue',
+                    fillOpacity: 0.4
+                }).addTo(map);
+            }
+        </script>
+
         <script src="{{ URL::asset('js/edit2.js') }}"></script>
         <script src="{{ URL::asset('js/loaddataAmbiente.js') }}"></script>
         <script src="{{ URL::asset('js/loaddataEdificio.js') }}"></script>
         <script src="{{ URL::asset('js/edit.js') }}"></script>
-
+        <script src="{{ URL::asset('js/editPoligono.js') }}"></script>
+        <script src="{{ URL::asset('js/editLocation.js') }}"></script>
     </body>
 @endsection

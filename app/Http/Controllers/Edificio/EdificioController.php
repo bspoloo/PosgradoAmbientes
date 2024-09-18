@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Edificio;
 
 use App\Classes\Ambiente\AmbienteManager;
+use App\Classes\Converter\StringConverter;
 use App\Classes\Edificio\EdificioManager;
 use App\Classes\Piso\Piso;
 use App\Http\Controllers\Controller;
+use App\Models\Campu\Campu;
 use App\Models\Edificio\Edificio;
 use App\Models\Piso\Piso as PisoPiso;
 use App\Models\PisoBloque\PisoBloque;
@@ -18,10 +20,12 @@ class EdificioController extends Controller
 {
     private $ambienteManager;
     private $edificioManager;
+    private $converter;
     public function __construct()
     {
         $this->ambienteManager = new AmbienteManager();
         $this->edificioManager = new EdificioManager();
+        $this->converter = new StringConverter();
     }
 
     public function getEdificios()
@@ -36,7 +40,8 @@ class EdificioController extends Controller
     public function getEdificioById($id_edificio)
     {
 
-        $edificio = Edificio::findOrFail($id_edificio);
+        // $edificio = Edificio::findOrFail($id_edificio);
+        $edificio = DB::table('edicio_campus')->where('id_edificio', $id_edificio)->first();
         $pisos_ambientes = [];
         $nombre = '';
 
@@ -73,5 +78,27 @@ class EdificioController extends Controller
         return response()->json(
             $this->edificioManager->getEdificioAmbiente($id_edificio)
         );
+    }
+    public function updateLocationPoligon(Request $request){
+
+        $edificio = Edificio::findOrFail($request->id_edificio);
+        $edificio_campu = DB::table('edicio_campus')->where('id_edificio',$request->id_edificio)->first();
+        $campu = Campu::findOrFail($edificio_campu->id_campu);
+
+        $poligono = $this->converter->arrayToString($request->poligono);
+
+        $edificio->latitud = $request->latitud;
+        $edificio->longitud = $request->longitud;
+        $edificio->update();
+
+        $campu->poligono = $poligono;
+        $campu->latitud = $request->latitud;
+        $campu->longitud = $request->longitud;
+
+        $campu->update();
+
+        return response()->json([
+            'success' => $poligono,
+        ]);
     }
 }

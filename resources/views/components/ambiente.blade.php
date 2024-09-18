@@ -1,5 +1,5 @@
 <div class="ambiente-container">
-    <button type="button" class="ambiente btn btn-primary btn-sm editRecord" data-id="{{ $id }}" 
+    <button type="button" class="ambiente editRecord" data-id="{{ $id }}" 
         data-value='{{$id_edificio}}_{{$id_piso}}' data-icono="{{ $icono }}" data-nombre="{{ $nombre }}">
         <i class="fa fa-edit"></i>
         <img src="/images/{{ $icono }}" alt="{{ $nombre }}" width="300px">

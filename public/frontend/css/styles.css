@@ -80,11 +80,13 @@ button {
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 10px;
+    transition: background-color 0.3s ease, border-radius 0.3s ease;
 }
 
 button:hover {
-    background-color: #514d4d;
+    background-color: #a8dcd1;
     border-radius: 10px;
+
 }
 
 /* form */
@@ -205,11 +207,13 @@ option {
     color: #dc3545;
 }
 .container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
     background-color: #ecf0f1;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
-    margin: 20px;
     padding: 20px;
     text-align: center;
 }
@@ -315,11 +319,12 @@ h2 {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    background-color: #d0ece6;
+    background-color: #598f83;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #000000;
 }
 
 .ambiente img {
@@ -327,11 +332,13 @@ h2 {
     max-width: 20%; 
     height: auto;
 }
+
 .ambiente h2 {
     color: #333;
     font-size: 1.5em;
     margin-top: 15px;
 }
+
 .ambiente-container{
     display: flex;
     flex-direction: column;
@@ -339,6 +346,7 @@ h2 {
 .menu-pisos{
     display: flex;
     flex-direction: row;
+    /* flex-wrap: wrap; */
     gap: 10px;
 }
 .scroll{

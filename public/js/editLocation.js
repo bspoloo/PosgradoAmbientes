@@ -1,7 +1,6 @@
 let isEditingLocation = false;
 var editLocationIcon = document.getElementById('editLocationIcon');
 var newLocation = {};
-var currentPoligono = edificio.poligono;
 
 document.getElementById('editLocation').addEventListener('click', function() {
     
@@ -29,7 +28,7 @@ function onMapClickLocation(e) {
         newLocation.id_edificio = edificio.id_edificio;
         newLocation.latitud = lat;
         newLocation.longitud = lng;
-        newLocation.poligono = currentPoligono;
+        newLocation.poligono = edificio.poligono;
     }
 }
 
@@ -61,7 +60,7 @@ $('body').on('click', '.editDataEdificio', function (e) {
         }),
         success: function (data) {
             console.log('Location updated successfully:', data);
-            // location.reload();
+            location.reload();
         },
         error: function (data) {
             console.log('Error:', data);

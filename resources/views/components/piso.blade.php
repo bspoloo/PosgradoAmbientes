@@ -13,7 +13,4 @@
             <img src="/images/borrar.png" alt="open-piso" width="20px">
         </button>
     </div>
-    <div id="ambientesContainer{{ $id_edificio }}_{{ $id_piso }}" style="display: none;" class="ambientes">
-        <!-- Los ambientes se cargarán aquí -->
-    </div>
 </div>

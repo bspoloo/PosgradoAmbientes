@@ -1,6 +1,6 @@
 URLindex2 = '/pisos';
 
-$('#form2').on('submit', function (e) {
+$('#form-piso').on('submit', function (e) {
     e.preventDefault();
 
     var formData = new FormData(this);
@@ -70,7 +70,7 @@ $('body').on('click', '.deletePiso', function () {
     }
 });
 
-$('#close-form2').click(function() {
+$('#close-form-piso').click(function() {
     $('#form-container-piso').addClass('hidden');
     $('#form-container-piso').removeClass('visible');
 });

@@ -45,7 +45,7 @@ $(document).ready(function () {
             ${piso.ambientes.map(function (ambiente) {
                 return `
                 <div class="ambiente-container">
-                    <button type="button" class="ambiente btn btn-primary btn-sm editRecord" data-id="${ambiente.id_ambiente}" data-value='${id_edificio}_${piso.id_piso}'
+                    <button type="button" class="ambiente editRecord" data-id="${ambiente.id_ambiente}" data-value='${id_edificio}_${piso.id_piso}'
                         data-icono="${ambiente.icono}" data-nombre="${ambiente.nombre}">
                         <i class="fa fa-edit"></i>
                         <img src="/images/${ambiente.icono}" alt="${ambiente.nombre}" width="300px">

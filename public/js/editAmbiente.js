@@ -1,9 +1,3 @@
-
-
-/*------------------------------------------
-   Pass Header Token
---------------------------------------------*/
-
 $(document).ready(function () {
     $.ajaxSetup({
         headers: {
@@ -14,7 +8,7 @@ $(document).ready(function () {
     let URLindex = '/ambientes';
     let titulo = 'Ambiente';
 
-    $('#form').on('submit', function (e) {
+    $('#form-ambiente').on('submit', function (e) {
         e.preventDefault();
 
         var formData = new FormData(this);
@@ -126,7 +120,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#close-form').click(function () {
+    $('#close-form-ambiente').click(function () {
 
         $('#form-container').addClass('hidden');
         $('#form-container').removeClass('visible');

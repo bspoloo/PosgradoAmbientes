@@ -21,7 +21,7 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (data) {
-                $('#form')[0].reset();
+                $('#form-ambiente')[0].reset();
                 $('#ajaxModel').modal('hide');
                 location.reload();
             },
@@ -29,7 +29,7 @@ $(document).ready(function () {
                 console.log('Error:', data);
 
                 if (data.responseJSON) {
-                    $('#form input, #form select').removeClass('is-invalid');
+                    $('#form-ambiente input, #form-ambiente select').removeClass('is-invalid');
                     $('.invalid-feedback').remove();
 
                     var errors = data.responseJSON.errors;
@@ -52,7 +52,7 @@ $(document).ready(function () {
         $select.empty();
 
         $('#id_ambiente').val('');
-        $('#form')[0].reset();
+        $('#form-ambiente')[0].reset();
 
         $('#form-container .form-title').html("Crear nuevo " + titulo);
         $('#form-container').addClass('visible');

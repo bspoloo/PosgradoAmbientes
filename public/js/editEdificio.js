@@ -13,7 +13,7 @@ $('#form-piso').on('submit', function (e) {
         contentType: false,
         processData: false,
         success: function (data) {
-            $('#form').trigger("reset");
+            $('#form-piso').trigger("reset");
             $('#ajaxModel').modal('hide');
 
             // table.draw();
@@ -23,7 +23,7 @@ $('#form-piso').on('submit', function (e) {
             console.log('Error:', data);
             if (data.responseJSON) {
                 // Limpiar los errores anteriores
-                $('#form input, #form select').removeClass('is-invalid');
+                $('#form-piso input, #form-piso select').removeClass('is-invalid');
                 $('.invalid-feedback').remove();
 
                 var errors = data.responseJSON.errors;
@@ -44,7 +44,7 @@ $('body').on("click", ".createNewPiso", function () {
     $select.empty();
 
     $('#id_ambiente').val('');
-    $('#form')[0].reset();
+    $('#form-piso')[0].reset();
 
     $('#form-container-piso .form-title-piso').html("Crear nuevo Piso");
     $('#form-container-piso').addClass('visible');

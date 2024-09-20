@@ -27,12 +27,14 @@ class PisoController extends Controller
 
     public function store(Request $request)
     {
+        $nombre = '';
         $validator = Validator::make($request->all(), $this->data);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        $this->addPisos($request);
-        return response()->json(['success' => 'Registro guardado exitosamente.']);
+        $pisos_bloques = $this->addPisos($request);
+
+        return response()->json(['success' => $pisos_bloques]);
     }
 
     public function destroy($id_piso)
@@ -49,16 +51,21 @@ class PisoController extends Controller
             $iName = time() . '_imagen.' . $request->imagen->extension();
             $request->imagen->move(public_path('images'), $iName);
         }
+        $pisos_bloques = [];
 
-        for($i = 0 ; $i< $request->cantidad; $i++){
-            PisoBloque::create([
+        for ($i = 0; $i < $request->cantidad; $i++) {
+            $data = [
                 'id_bloque' => $request->id_bloque,
-                'id_piso' => $request->id_piso + ($i+1), 
+                'id_piso' => $request->id_piso + ($i + 1),
                 'nombre' => $request->nombre_piso_bloque,
                 'cantidad_ambientes' => $request->cantidad_ambientes,
                 'imagen' => $iName,
                 'estado' => $request->estado,
-            ]);
+            ];
+            PisoBloque::create($data);
+            $pisos_bloques[] = $data;
         }
+
+        return $pisos_bloques;
     }
 }

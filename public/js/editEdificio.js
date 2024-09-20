@@ -1,4 +1,5 @@
 URLindex2 = '/pisos';
+updateEdificioPiso();
 
 $('#form-piso').on('submit', function (e) {
     e.preventDefault();
@@ -14,10 +15,11 @@ $('#form-piso').on('submit', function (e) {
         processData: false,
         success: function (data) {
             $('#form-piso').trigger("reset");
-            $('#ajaxModel').modal('hide');
+            $('#form-container-piso').addClass('hidden');
+            $('#form-container-piso').removeClass('visible');
+            $('#form-piso')[0].reset();
+            updateEdificioPiso();
 
-            // table.draw();
-            location.reload();
         },
         error: function (data) {
             console.log('Error:', data);
@@ -50,9 +52,48 @@ $('body').on("click", ".createNewPiso", function () {
     $('#form-container-piso').addClass('visible');
 });
 
+$('#close-form-piso').click(function () {
+    $('#form-container-piso').addClass('hidden');
+    $('#form-container-piso').removeClass('visible');
+});
+
+function updateEdificioPiso() {
+    let edificio_ambiente = document.getElementById('edificio-ambientes');
+
+    $.ajax({
+        url: `/EdificiosPisos/${edificio.id_edificio}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            var newEdificio = '';
+            $.each(response, function (index, piso) {
+                newEdificio += `<div class="piso">
+                ${piso.nombre} ${piso.numero}
+                    <div class="actions">
+                        <button type="button" class="btn btn-primary btn-sm createNewRecord" data-value="${edificio.id_edificio}_${piso.id_piso}">
+                            <i class="fa fa-create"></i> +
+                        </button>
+                        <button id="toggleButton" class="toggleButton" data-value="${edificio.id_edificio}_${piso.id_piso}">
+                            <img src="/images/ojo.png" alt="open-piso" width="20px">
+                        </button>
+                        <button id="deletePiso" data-value="${piso.id_piso}" class="deletePiso" data-id="${piso.id_piso}" >
+                            <img src="/images/borrar.png" alt="open-piso" width="20px">
+                        </button>
+                    </div>
+                </div>`;
+            });
+            edificio_ambiente.innerHTML = newEdificio;
+        },
+        error: function (xhr) {
+            console.log('Error al cargar los edificios:', xhr);
+        }
+    });
+}
 $('body').on('click', '.deletePiso', function () {
 
     var table_id = $(this).data("id");
+    console.log(table_id);
+
     let sino = confirm("Confirma borrar el Piso?");
 
     if (sino) {
@@ -60,17 +101,13 @@ $('body').on('click', '.deletePiso', function () {
             type: "DELETE",
             url: '/pisos/' + table_id,
             success: function (data) {
-                location.reload();
+                updateEdificioPiso();
             },
             error: function (data) {
-                alert('Error al eliminar: ' + data.responseText);
+                alert('Error al eliminar: Primero debe borrar todos los ambientes para borrar el Piso');
                 console.log('Error:', data);
             }
         });
     }
 });
 
-$('#close-form-piso').click(function() {
-    $('#form-container-piso').addClass('hidden');
-    $('#form-container-piso').removeClass('visible');
-});

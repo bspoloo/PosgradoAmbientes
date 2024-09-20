@@ -26,14 +26,11 @@
             </a>
         </div>
         <ul class="menu-inner py-1">
-            {{-- {!! session('data_session')['menu'] !!} --}}
-            in this part is all menu
-
             <li class="menu-item active">
                 <a href="/edificios" class="menu-link">
                     <i class="menu-icon tf-icons ti ti-smart-home"></i>
                     <div data-i18n="">
-                        Mapas
+                        Edificios
                     </div>
                 </a>
             </li>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Edificio;
 
 use App\Classes\Ambiente\AmbienteManager;
 use App\Classes\Converter\StringConverter;
+use App\Classes\Edificio\Edificio as EdificioEdificio;
 use App\Classes\Edificio\EdificioManager;
 use App\Classes\Piso\Piso;
 use App\Http\Controllers\Controller;
@@ -28,6 +29,10 @@ class EdificioController extends Controller
         $this->converter = new StringConverter();
     }
 
+    public function index($id_edificio){
+        $edificio_ambiente = $this->edificioManager->getEdificio($id_edificio);
+        return view('Edificios.edificio',['edificio_ambiente' => $edificio_ambiente]);
+    }
     public function getEdificios()
     {
         // $edificios = Edificio::all();
@@ -39,41 +44,10 @@ class EdificioController extends Controller
     }
     public function getEdificioById($id_edificio)
     {
-
-        // $edificio = Edificio::findOrFail($id_edificio);
-        $edificio = DB::table('edicio_campus')->where('id_edificio', $id_edificio)->first();
-        $pisos_ambientes = [];
-        $nombre = '';
-
-        $pisos = DB::table('edificio_piso')
-            ->where('id_edificio', $edificio->id_edificio)
-            ->orderBy('numero_piso', 'desc')
-            ->get();
-
-        foreach ($pisos as $piso) {
-            if ($nombre != $piso->piso) {
-
-                $pisos_ambientes[] = new Piso(
-                    $piso->id_piso,
-                    $piso->numero_piso,
-                    $piso->piso,
-                    $piso->piso_estado,
-                    $this->ambienteManager->getAmbientes($edificio, $piso->numero_piso)
-                );
-
-                $nombre = $piso->piso;
-            }
-        }
-
-        return view('Edificios.edificio', [
-            'edificio' => $edificio,
-            'pisos_ambientes' => $pisos_ambientes,
-            'PisosBloques' => PisoBloque::all(),
-            'TipoAmbientes' => TipoAmbiente::all(),
-            'bloques' => DB::table('bloques')->where('id_edificio', $edificio->id_edificio)->get(),
-            'pisos' => PisoPiso::orderBy('numero', 'asc')->get()
-        ]);
+        $edificio_ambiente = $this->edificioManager->getEdificio($id_edificio);
+        return response()->json($edificio_ambiente);
     }
+
     public function getEdificioAmbiente($id_edificio){
         return response()->json(
             $this->edificioManager->getEdificioAmbiente($id_edificio)

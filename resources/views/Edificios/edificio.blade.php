@@ -6,36 +6,16 @@
     <body>
         <div class="container">
 
-
-            <div>
-                <h1>The map of all building:</h1>
-                <p>welcome to the dashboard user</p>
-            </div>
-            <div class="cnotainer">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                            <h4 class="mb-sm-0 font-size-18">Edificio</h4>
-                            <div class="page-title-right">
-                                <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="javascript: void(0);">Gestión</a></li>
-                                    <li class="breadcrumb-item active">Ambientes</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="menu-pisos">
                 <div class="container">
-                    <div><img class="rounded-img" src="/images/{{ $edificio->imagen }}" alt="{{ $edificio->imagen }}"
-                            width="400px"></div>
+                    <div><img class="rounded-img" src="/images/{{ $edificio_ambiente->edificio->imagen }}"
+                            alt="{{ $edificio_ambiente->edificio->imagen }}" width="400px"></div>
                     <div class="actions">
-                        <h2>Nombre: {{ $edificio->nombre }}</h2>
+                        <h2>{{ $edificio_ambiente->edificio->nombre }}</h2>
                         <button type="button" class="btn btn-primary btn-sm createNewPiso"><i
                                 class="fa fa-create"></i>+</button>
-                        <button id="openEdificioButton" class="openEdificioButton" data-value={{ $edificio->id_edificio }}>
+                        <button id="openEdificioButton" class="openEdificioButton"
+                            data-value={{ $edificio_ambiente->edificio->id_edificio }}>
                             <img src="/images/ojo.png" alt="open-edificio" width="25px">
                         </button>
                         <button id="editLocation" class="editLocation">
@@ -54,35 +34,21 @@
                 </div>
 
                 <div class="container">
-                    <div class="scroll">
-                        @foreach ($pisos_ambientes as $piso)
-                            <x-piso type="info">
-                                <x-slot name="nombre">
-                                    {{ $piso->nombre }}
-                                </x-slot>
-                                <x-slot name="numero_piso">
-                                    {{ $piso->numero }}
-                                </x-slot>
-                                <x-slot name="id_edificio">
-                                    {{ $edificio->id_edificio }}
-                                </x-slot>
-                                <x-slot name="id_piso">
-                                    {{ $piso->id_piso }}
-                                </x-slot>
-                            </x-piso>
-                        @endforeach
+                    <div id="edificio-ambientes" class="scroll">
+                        Cargando Edificio
                     </div>
                 </div>
             </div>
 
-            <div id="form-container" class="hidden ">
+            <div id="form-container-ambiente" class="hidden ">
                 <div class="form-content">
                     <div class="form-header">
                         <h5 class="form-title">Detalles del Ambiente</h5>
                         <button type="button" class="btn-close" id="close-form-ambiente"></button>
                     </div>
                     <div class="form-body">
-                        <form id="form-ambiente" name="form-ambiente" class="needs-validation" autocomplete="off" novalidate>
+                        <form id="form-ambiente" name="form-ambiente" class="needs-validation" autocomplete="off"
+                            novalidate>
                             <input type="hidden" name="id_ambiente" id="id_ambiente">
                             @csrf
 
@@ -100,7 +66,7 @@
                                 <label for="id_tipo_ambiente" class="form-label">Tipo de Ambiente<span
                                         class="text-danger">*</span></label>
                                 <select class="form-select mb-4" name="id_tipo_ambiente" id="id_tipo_ambiente">
-                                    @foreach ($TipoAmbientes as $TipoAmbiente)
+                                    @foreach ($edificio_ambiente->TipoAmbientes as $TipoAmbiente)
                                         <option value="{{ $TipoAmbiente->id_tipo_ambiente }}">{{ $TipoAmbiente->nombre }}
                                         </option>
                                     @endforeach
@@ -189,11 +155,12 @@
                 ambiente
             </div>
 
-            <div id="edificioContainer{{ $edificio->id_edificio }}" style="display: none;" class="edificio">
+            <div id="edificioContainer{{ $edificio_ambiente->edificio->id_edificio }}" style="display: none;"
+                class="edificio">
                 <!-- Los ambientes se cargarán aquí -->
             </div>
 
-            <div id="form-container-piso" class="hidden ">
+            <div id="form-container-piso" class="hidden">
                 <div class="form-content">
                     <div class="form-header">
                         <h5 class="form-title-piso">Agregar nuevo Piso</h5>
@@ -205,7 +172,7 @@
                             @csrf
 
                             <select class="form-select mb-4" name="id_bloque" id="id_bloque">
-                                @foreach ($bloques as $bloque)
+                                @foreach ($edificio_ambiente->bloques as $bloque)
                                     <option value="{{ $bloque->id_bloque }}">{{ $bloque->nombre }}
                                     </option>
                                 @endforeach
@@ -213,17 +180,16 @@
 
                             <div class="">
                                 <select class="form-select mb-4" name="id_piso" id="id_piso">
-
-                                    <option value="{{ $pisos_ambientes[0]->id_piso }}">
-                                        {{ $pisos_ambientes[0]->numero }}.-
-                                        {{ $pisos_ambientes[0]->nombre }}</option>
-
+                                    <option value="{{ $edificio_ambiente->pisos_ambientes[0]->id_piso }}">
+                                        {{ $edificio_ambiente->pisos_ambientes[0]->numero }}.-
+                                        {{ $edificio_ambiente->pisos_ambientes[0]->nombre }}
+                                    </option>
                                 </select>
                                 @php
                                     $cantidad = 0;
                                     for (
-                                        $i = $pisos_ambientes[0]->numero;
-                                        $i < $pisos[count($pisos) - 1]->numero;
+                                        $i = $edificio_ambiente->pisos_ambientes[0]->numero;
+                                        $i < $edificio_ambiente->pisos[count($edificio_ambiente->pisos) - 1]->numero;
                                         $i++
                                     ) {
                                         $cantidad++;
@@ -294,46 +260,56 @@
         </div>
 
         <script>
-            var edificio = @json($edificio);
+            var map;
+            var marker;
+            var customIcon;
+            var polygon;
+            var edificio = @json($edificio_ambiente->edificio);
 
-            var map = L.map('mapEdificio').setView([edificio.latitud, edificio.longitud], 20);
+            loadMap(edificio);
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 18,
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-
-            var customIcon = L.icon({
-                iconUrl: `/images/${edificio.imagen}`,
-                iconSize: [50, 50],
-                iconAnchor: [50, 50],
-                popupAnchor: [-3, -38]
-            });
-
-            var marker = L.marker([edificio.latitud, edificio.longitud], {
-                    icon: customIcon
-                }).addTo(map)
-                .bindPopup(edificio.nombre);
-
-            marker.on('click', function() {
-                window.edificio.href = `/edificios/${edificio.id_edificio}`;
-            });
-
-            if (edificio.poligono) {
-                var coordsString = edificio.poligono;
-                var coordPairs = coordsString.split(',');
-                var polygonCoords = [];
-
-                for (var i = 0; i < coordPairs.length; i += 2) {
-                    var lat = parseFloat(coordPairs[i]);
-                    var lng = parseFloat(coordPairs[i + 1]);
-                    polygonCoords.push([lat, lng]);
+            function loadMap(edificio) {
+                if (map) {
+                    map.remove();
                 }
-
-                var polygon = L.polygon(polygonCoords, {
-                    color: 'blue',
-                    fillOpacity: 0.4
+                map = L.map('mapEdificio').setView([edificio.latitud, edificio.longitud], 20);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
+
+                customIcon = L.icon({
+                    iconUrl: `/images/${edificio.imagen}`,
+                    iconSize: [50, 50],
+                    iconAnchor: [50, 50],
+                    popupAnchor: [-3, -38]
+                });
+
+                marker = L.marker([edificio.latitud, edificio.longitud], {
+                        icon: customIcon
+                    }).addTo(map)
+                    .bindPopup(edificio.nombre);
+
+                marker.on('click', function() {
+                    window.edificio.href = `/edificios/${edificio.id_edificio}`;
+                });
+
+                if (edificio.poligono) {
+                    var coordsString = edificio.poligono;
+                    var coordPairs = coordsString.split(',');
+                    var polygonCoords = [];
+
+                    for (var i = 0; i < coordPairs.length; i += 2) {
+                        var lat = parseFloat(coordPairs[i]);
+                        var lng = parseFloat(coordPairs[i + 1]);
+                        polygonCoords.push([lat, lng]);
+                    }
+
+                    polygon = L.polygon(polygonCoords, {
+                        color: 'blue',
+                        fillOpacity: 0.4
+                    }).addTo(map);
+                }
             }
         </script>
     </body>

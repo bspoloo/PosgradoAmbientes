@@ -23,7 +23,11 @@ $(document).ready(function () {
             success: function (data) {
                 $('#form-ambiente')[0].reset();
                 $('#ajaxModel').modal('hide');
-                location.reload();
+                $('#form-container-ambiente').addClass('hidden');
+                $('#form-container-ambiente').removeClass('visible');
+                $('#form-ambiente')[0].reset();
+                $('#ambienteContainer').hide();
+                // location.reload();
             },
             error: function (data) {
                 console.log('Error:', data);
@@ -31,10 +35,7 @@ $(document).ready(function () {
                 if (data.responseJSON) {
                     $('#form-ambiente input, #form-ambiente select').removeClass('is-invalid');
                     $('.invalid-feedback').remove();
-
                     var errors = data.responseJSON.errors;
-                    console.log(errors);
-
                     $.each(errors, function (field, messages) {
                         var input = $('[name="' + field + '"]');
                         input.addClass('is-invalid');
@@ -54,10 +55,9 @@ $(document).ready(function () {
         $('#id_ambiente').val('');
         $('#form-ambiente')[0].reset();
 
-        $('#form-container .form-title').html("Crear nuevo " + titulo);
-        $('#form-container').addClass('visible');
+        $('#form-container-ambiente .form-title').html("Crear nuevo " + titulo);
+        $('#form-container-ambiente').addClass('visible');
 
-        // Obtener los datos de los pisos y bloques de manera dinámica
         $.get(`/pisos_bloques/${button_value}`, function (data) {
             $.each(data, function (index, item) {
                 $select.append('<option value="' + item.id_piso_bloque + '">' + item.piso_bloque + '</option>');
@@ -73,7 +73,7 @@ $(document).ready(function () {
 
         $.get(URLindex + '/' + table_id + '/edit', function (data) {
             $('#form-title').html("Editar " + titulo);
-            $('#form-container').removeClass('hidden').addClass('visible');
+            $('#form-container-ambiente').removeClass('hidden').addClass('visible');
             $('#table_id').val(data.id);
 
             $.each(data, function (index, itemData) {
@@ -122,8 +122,8 @@ $(document).ready(function () {
 
     $('#close-form-ambiente').click(function () {
 
-        $('#form-container').addClass('hidden');
-        $('#form-container').removeClass('visible');
+        $('#form-container-ambiente').addClass('hidden');
+        $('#form-container-ambiente').removeClass('visible');
 
         $('#form-container-piso').addClass('hidden');
         $('#form-container-piso').removeClass('visible');
@@ -131,6 +131,7 @@ $(document).ready(function () {
 
     $('body').on('click', '.deleteRecord', function () {
         var table_id = $(this).data("id");
+
         let sino = confirm("Confirma borrar el ambiente?");
 
         if (sino) {
@@ -138,7 +139,7 @@ $(document).ready(function () {
                 type: "DELETE",
                 url: URLindex + '/' + table_id,
                 success: function (data) {
-                    location.reload();  // Recargar la página después de eliminar
+                    $('#ambienteContainer').hide();
                 },
                 error: function (data) {
                     alert('Error al eliminar: ' + data.responseText);

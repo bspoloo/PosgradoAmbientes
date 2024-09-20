@@ -34,6 +34,7 @@ $(document).ready(function () {
             }
         });
     }
+
     function getEdificio(piso, id_edificio) {
         return `
         

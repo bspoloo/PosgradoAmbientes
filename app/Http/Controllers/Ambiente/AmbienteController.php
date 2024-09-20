@@ -8,20 +8,17 @@ use App\Models\Ambiente\Ambiente;
 use App\Models\Edificio\Edificio;
 use App\Models\Piso\Piso;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\Facades\DataTables;
-
 class AmbienteController extends Controller
 {
     public $model;
     public $data;
     public $validator;
-    public $ambienteMangaber;
+    public $ambienteManganer;
     public function __construct()
     {
         $this->model = new Ambiente();
-        $this->ambienteMangaber = new AmbienteManager();
+        $this->ambienteManganer = new AmbienteManager();
         $this->data = [
             'id_piso_bloque' => 'required | string',
             'id_tipo_ambiente' => 'required | string',
@@ -38,8 +35,7 @@ class AmbienteController extends Controller
 
         $edificio = Edificio::findOrfail($data[0]);
         $piso = Piso::findOrfail($data[1]);
-
-        return response()->json($this->ambienteMangaber->getAmbientes($edificio, $piso->numero));
+        return response()->json($this->ambienteManganer->getAmbientes($edificio, $piso->numero));
     }
     public function edit($id_ambiente)
     {
@@ -85,7 +81,6 @@ class AmbienteController extends Controller
         );
 
         $ambiente->save();
-
         return response()->json(['success' => 'Registro guardado exitosamente.' . $request]);
     }
 
@@ -94,4 +89,5 @@ class AmbienteController extends Controller
         $this->model::find($id_ambiente)->delete();
         return response()->json(['success' => 'Registro borrado exitosamente.']);
     }
+    
 }

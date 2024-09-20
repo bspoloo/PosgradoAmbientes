@@ -11,13 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class EdificioPisoController extends Controller
 {
-    public $ambienteManager;
+    public $edificioManager;
     public function __construct() {
-        $this->ambienteManager = new EdificioManager();
+        $this->edificioManager = new EdificioManager();
     }
     public function getEdificioPiso($id_edificio){
-
-        return response()->json($this->ambienteManager->getEdificioAmbiente($id_edificio));
-        
+        return response()->json($this->edificioManager->getEdificioAmbiente($id_edificio));
     }
 }

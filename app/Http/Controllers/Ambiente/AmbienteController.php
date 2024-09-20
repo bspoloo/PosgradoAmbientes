@@ -79,7 +79,6 @@ class AmbienteController extends Controller
                 'estado' => $request->estado,
             ]
         );
-
         $ambiente->save();
         return response()->json(['success' => 'Registro guardado exitosamente.' . $request]);
     }
